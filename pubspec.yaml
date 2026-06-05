@@ -20,6 +20,7 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   change_app_package_name: ^1.5.0
   flutter_launcher_icons: ^0.14.4
+  rename_app: ^1.6.6
 
 flutter:
   uses-material-design: true
@@ -37,3 +38,6 @@ flutter_launcher_icons:
   macos:
     generate: true
     icon_size: 48
+
+config_name:
+  name: "puniyu-launcher"
