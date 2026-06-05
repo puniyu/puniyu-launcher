@@ -1,45 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-enum ThemeMode {
-  light(
-    brightness: Brightness.light,
-    background: Color.fromARGB(255, 255, 192, 203),
-  ),
-  dark(
-    brightness: Brightness.dark,
-    background: Colors.black,
-  );
-
-  final Brightness brightness;
-  final Color background;
-
-  const ThemeMode({
-    required this.brightness,
-    required this.background,
-  });
-
-  ShadThemeData get themeData => ShadThemeData(
-    colorScheme: ShadSlateColorScheme.light(background: background),
-    brightness: brightness,
-  );
+abstract class Theme {
+  String get id;
+  String get name;
+  Color get color => themeData.colorScheme.background;
+  ShadThemeData get themeData;
 }
 
-class ThemeManager {
-  static final ThemeManager _instance = ThemeManager._();
-  factory ThemeManager() => _instance;
+class ThemeManager extends ChangeNotifier {
+  final List<Theme> _themes = [];
+  Theme? _current;
 
-  ThemeManager._();
+  List<Theme> get themes => List.unmodifiable(_themes);
+  Theme get current => _current ?? _themes.first;
+  ShadThemeData get theme => current.themeData;
 
-  ThemeMode _mode = ThemeMode.light;
+  ThemeManager add(Theme Function() create) {
+    _themes.add(create());
+    _current ??= _themes.last;
+    return this;
+  }
 
-  ThemeMode get mode => _mode;
-
-  ShadThemeData get theme => _mode.themeData;
-
-  ShadThemeData getTheme(ThemeMode mode) => mode.themeData;
-
-  void setTheme(ThemeMode mode) {
-    _mode = mode;
+  void setTheme(Theme theme) {
+    if (_current?.id == theme.id) return;
+    _current = theme;
+    notifyListeners();
   }
 }
