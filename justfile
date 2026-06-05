@@ -7,6 +7,9 @@ set-app-package-name name:
 set-app-icon:
     dart run flutter_launcher_icons
 
+set-app-name:
+    dart run rename_app:main
+
 run: 
     flutter run
     
