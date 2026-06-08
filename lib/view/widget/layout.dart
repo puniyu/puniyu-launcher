@@ -1,40 +1,28 @@
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:puniyu_launcher/platform.dart';
 import 'package:puniyu_launcher/view/widget/nav_bar.dart';
 import 'package:puniyu_launcher/view/widget/title_bar.dart';
-import 'package:puniyu_launcher/view/page/dashboard.dart';
-import 'package:puniyu_launcher/view/page/not_found.dart';
-import 'package:puniyu_launcher/router.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Layout extends StatelessWidget {
+  const Layout({super.key, required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: isDesktop() ? const _DeskTop() : const _Mobile());
-  }
-}
-
-Widget _buildPage(AppRoute route) {
-  switch (route) {
-    case AppRoute.dashboard:
-      return const Dashboard();
-    case AppRoute.logs:
-      return const NotFoundPage(title: '日志');
-    case AppRoute.settings:
-      return const NotFoundPage(title: '设置');
+    return isDesktop() ? _DeskTop(child: child) : _Mobile(child: child);
   }
 }
 
 class _DeskTop extends StatelessWidget {
-  const _DeskTop();
+  const _DeskTop({required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = ShadTheme.of(context).colorScheme;
-    final currentRoute = context.watch<RouterManager>().current;
 
     return Column(
       children: [
@@ -46,7 +34,7 @@ class _DeskTop extends StatelessWidget {
               Expanded(
                 child: Container(
                   color: colorScheme.background,
-                  child: _buildPage(currentRoute),
+                  child: child,
                 ),
               ),
             ],
@@ -58,15 +46,15 @@ class _DeskTop extends StatelessWidget {
 }
 
 class _Mobile extends StatelessWidget {
-  const _Mobile();
+  const _Mobile({required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    final currentRoute = context.watch<RouterManager>().current;
-
     return Column(
       children: [
-        Expanded(child: _buildPage(currentRoute)),
+        Expanded(child: child),
         const NavBar(),
       ],
     );
