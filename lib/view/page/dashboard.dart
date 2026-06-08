@@ -15,36 +15,48 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final layout = _DashboardLayout(constraints.maxWidth);
-        final items = _statusItems
-            .map((e) => _StatusCard(icon: e.icon, label: e.label, value: e.value, cardWidth: layout.cardWidth))
-            .toList();
+        final layout = _DashboardLayout(constraints);
 
         return SingleChildScrollView(
-          padding: EdgeInsets.all(layout.padding),
+          padding: layout.pagePadding,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const _Header(),
-              SizedBox(height: layout.spacing),
-              Wrap(spacing: 16, runSpacing: 16, children: items),
-              const SizedBox(height: 24),
-              layout.isWide
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Expanded(flex: 2, child: _ActionCard()),
-                        const SizedBox(width: 16),
-                        const Expanded(child: _BotInfoCard()),
-                      ],
+              const SizedBox(height: 28),
+              Wrap(
+                spacing: _DashboardLayout.gap,
+                runSpacing: _DashboardLayout.gap,
+                children: _statusItems
+                    .map(
+                      (e) => _StatusCard(
+                        icon: e.icon,
+                        label: e.label,
+                        value: e.value,
+                        cardWidth: layout.cardWidth,
+                      ),
                     )
-                  : const Column(
-                      children: [
-                        _ActionCard(),
-                        SizedBox(height: 16),
-                        _BotInfoCard(),
-                      ],
-                    ),
+                    .toList(),
+              ),
+              const SizedBox(height: 28),
+              if (layout.isWide)
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: 3, child: _ActionCard()),
+                    SizedBox(width: 20),
+                    Expanded(flex: 2, child: _BotInfoCard()),
+                  ],
+                )
+              else
+                const Column(
+                  children: [
+                    _ActionCard(),
+                    SizedBox(height: 20),
+                    _BotInfoCard(),
+                  ],
+                ),
             ],
           ),
         );
@@ -54,25 +66,29 @@ class Dashboard extends StatelessWidget {
 }
 
 class _DashboardLayout {
-  _DashboardLayout(this.width)
-      : padding = width > 600 ? 24.0 : 16.0,
-        spacing = width > 600 ? 24.0 : 16.0,
-        isWide = width > 1100 {
-    const minWidth = 220.0;
-    const gap = 16.0;
-    final available = width - padding * 2;
-    final columns = ((available + gap) / (minWidth + gap)).floor().clamp(2, 6);
-    cardWidth = (available - gap * (columns - 1)) / columns;
+  _DashboardLayout(BoxConstraints constraints) {
+    final width = constraints.maxWidth;
+    final padding = width > 600 ? 28.0 : 16.0;
+    pagePadding = EdgeInsets.symmetric(
+      horizontal: padding,
+      vertical: constraints.maxHeight > 500 ? 36 : 16,
+    );
+    final contentWidth = width - padding * 2;
+    isWide = contentWidth > 700;
+
+    const minWidth = 200.0;
+    final columns = ((contentWidth + gap) / (minWidth + gap)).floor().clamp(
+      1,
+      4,
+    );
+    cardWidth = (contentWidth - gap * (columns - 1)) / columns;
   }
 
-  final double width;
-  final double padding;
-  final double spacing;
-  final bool isWide;
+  static const double gap = 16.0;
+  late final EdgeInsets pagePadding;
+  late final bool isWide;
   late final double cardWidth;
 }
-
-// ───────────────────── Header ─────────────────────
 
 class _Header extends StatelessWidget {
   const _Header();
@@ -89,32 +105,41 @@ class _Header extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('控制台', style: theme.textTheme.h2),
-              const SizedBox(height: 4),
-              Text('管理你的 Bot 实例', style: theme.textTheme.muted),
+              const SizedBox(height: 6),
+              Text(
+                '管理你的 Bot 实例',
+                style: theme.textTheme.muted.copyWith(fontSize: 14),
+              ),
             ],
           ),
         ),
         ShadBadge(
-          backgroundColor: colorScheme.primary.withValues(alpha: 0.15),
+          backgroundColor: colorScheme.primary.withValues(alpha: 0.12),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 6,
-                height: 6,
+                width: 7,
+                height: 7,
                 decoration: BoxDecoration(
                   color: const Color(0xFF7DD3A8),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF7DD3A8).withValues(alpha: 0.4),
-                      blurRadius: 4,
+                      color: const Color(0xFF7DD3A8).withValues(alpha: 0.5),
+                      blurRadius: 6,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 6),
-              Text('运行中', style: TextStyle(color: colorScheme.primary)),
+              const SizedBox(width: 8),
+              Text(
+                '运行中',
+                style: theme.textTheme.small.copyWith(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),
@@ -122,8 +147,6 @@ class _Header extends StatelessWidget {
     );
   }
 }
-
-// ───────────────────── Status Card ─────────────────────
 
 class _StatusCard extends StatelessWidget {
   const _StatusCard({
@@ -156,7 +179,7 @@ class _StatusCard extends StatelessWidget {
                 Text(label, style: theme.textTheme.muted),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Text(value, style: theme.textTheme.h3),
           ],
         ),
@@ -165,13 +188,13 @@ class _StatusCard extends StatelessWidget {
   }
 }
 
-// ───────────────────── Action Card ─────────────────────
-
 class _ActionCard extends StatelessWidget {
   const _ActionCard();
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = ShadTheme.of(context).colorScheme;
+
     return ShadCard(
       title: const Text('快捷操作'),
       description: const Text('管理 Bot 的运行状态'),
@@ -179,11 +202,26 @@ class _ActionCard extends StatelessWidget {
         padding: const EdgeInsets.only(top: 16),
         child: Column(
           children: [
-            _ActionTile(icon: LucideIcons.play, label: '启动 Bot', description: '启动 Bot 实例', color: const Color(0xFF7DD3A8)),
-            const SizedBox(height: 8),
-            _ActionTile(icon: LucideIcons.rotateCcw, label: '重启 Bot', description: '重启 Bot 实例', color: const Color(0xFFF5C87A)),
-            const SizedBox(height: 8),
-            _ActionTile(icon: LucideIcons.square, label: '停止 Bot', description: '停止 Bot 实例', color: ShadTheme.of(context).colorScheme.destructive),
+            const _ActionTile(
+              icon: LucideIcons.play,
+              label: '启动 Bot',
+              description: '启动 Bot 实例',
+              color: Color(0xFF7DD3A8),
+            ),
+            const SizedBox(height: 10),
+            const _ActionTile(
+              icon: LucideIcons.rotateCcw,
+              label: '重启 Bot',
+              description: '重启 Bot 实例',
+              color: Color(0xFFF5C87A),
+            ),
+            const SizedBox(height: 10),
+            _ActionTile(
+              icon: LucideIcons.square,
+              label: '停止 Bot',
+              description: '停止 Bot 实例',
+              color: colorScheme.destructive,
+            ),
           ],
         ),
       ),
@@ -209,42 +247,46 @@ class _ActionTile extends StatelessWidget {
     final theme = ShadTheme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: () {},
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        hoverColor: colorScheme.accent,
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: colorScheme.border),
-          ),
-          child: Row(
-            children: [
-              _IconBadge(icon: icon, color: color),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(label, style: theme.textTheme.p.copyWith(fontWeight: FontWeight.w500)),
-                    Text(description, style: theme.textTheme.small.copyWith(color: colorScheme.mutedForeground)),
-                  ],
+        border: Border.all(color: colorScheme.border),
+      ),
+      child: Row(
+        children: [
+          _IconBadge(icon: icon, color: color),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: theme.textTheme.p.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              Icon(LucideIcons.chevronRight, size: 16, color: colorScheme.mutedForeground),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  description,
+                  style: theme.textTheme.small.copyWith(
+                    color: colorScheme.mutedForeground,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+          Icon(
+            LucideIcons.chevronRight,
+            size: 16,
+            color: colorScheme.mutedForeground,
+          ),
+        ],
       ),
     );
   }
 }
-
-// ───────────────────── Bot Info Card ─────────────────────
 
 class _BotInfoCard extends StatelessWidget {
   const _BotInfoCard();
@@ -261,11 +303,11 @@ class _BotInfoCard extends StatelessWidget {
         child: Column(
           children: [
             _InfoRow(label: '名称', value: 'Puniyu Bot', theme: theme),
-            const SizedBox(height: 12),
+            const Divider(height: 24),
             _InfoRow(label: '版本', value: 'v1.0.0', theme: theme),
-            const SizedBox(height: 12),
+            const Divider(height: 24),
             _InfoRow(label: '端口', value: '8080', theme: theme),
-            const SizedBox(height: 12),
+            const Divider(height: 24),
             _InfoRow(label: '数据路径', value: './data', theme: theme),
           ],
         ),
@@ -275,7 +317,11 @@ class _BotInfoCard extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.label, required this.value, required this.theme});
+  const _InfoRow({
+    required this.label,
+    required this.value,
+    required this.theme,
+  });
 
   final String label;
   final String value;
@@ -283,17 +329,24 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: theme.textTheme.muted),
-        Text(value, style: theme.textTheme.p.copyWith(fontWeight: FontWeight.w500)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: theme.textTheme.muted),
+          Text(
+            value,
+            style: theme.textTheme.p.copyWith(
+              fontWeight: FontWeight.w500,
+              fontFamily: 'monospace',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-// ───────────────────── Shared Widget ─────────────────────
 
 class _IconBadge extends StatelessWidget {
   const _IconBadge({required this.icon, required this.color});
@@ -304,10 +357,10 @@ class _IconBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(9),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Icon(icon, size: 16, color: color),
     );
