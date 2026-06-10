@@ -34,6 +34,7 @@ class _DeskTop extends StatelessWidget {
               Expanded(
                 child: Container(
                   color: colorScheme.background,
+                  alignment: Alignment.topLeft,
                   child: child,
                 ),
               ),
