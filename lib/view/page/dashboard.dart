@@ -17,48 +17,54 @@ class Dashboard extends StatelessWidget {
       builder: (context, constraints) {
         final layout = _DashboardLayout(constraints);
 
-        return SingleChildScrollView(
-          padding: layout.pagePadding,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const _Header(),
-              const SizedBox(height: 28),
-              Wrap(
-                spacing: _DashboardLayout.gap,
-                runSpacing: _DashboardLayout.gap,
-                children: _statusItems
-                    .map(
-                      (e) => _StatusCard(
-                        icon: e.icon,
-                        label: e.label,
-                        value: e.value,
-                        cardWidth: layout.cardWidth,
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: layout.pagePadding,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const _Header(),
+                    const SizedBox(height: 28),
+                    Wrap(
+                      spacing: _DashboardLayout.gap,
+                      runSpacing: _DashboardLayout.gap,
+                      children: _statusItems
+                          .map(
+                            (e) => _StatusCard(
+                              icon: e.icon,
+                              label: e.label,
+                              value: e.value,
+                              cardWidth: layout.cardWidth,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(height: 28),
+                    if (layout.isWide)
+                      const Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(flex: 3, child: _ActionCard()),
+                          SizedBox(width: 20),
+                          Expanded(flex: 2, child: _BotInfoCard()),
+                        ],
+                      )
+                    else
+                      const Column(
+                        children: [
+                          _ActionCard(),
+                          SizedBox(height: 20),
+                          _BotInfoCard(),
+                        ],
                       ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 28),
-              if (layout.isWide)
-                const Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(flex: 3, child: _ActionCard()),
-                    SizedBox(width: 20),
-                    Expanded(flex: 2, child: _BotInfoCard()),
-                  ],
-                )
-              else
-                const Column(
-                  children: [
-                    _ActionCard(),
-                    SizedBox(height: 20),
-                    _BotInfoCard(),
                   ],
                 ),
-            ],
-          ),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -69,10 +75,8 @@ class _DashboardLayout {
   _DashboardLayout(BoxConstraints constraints) {
     final width = constraints.maxWidth;
     final padding = width > 600 ? 28.0 : 16.0;
-    pagePadding = EdgeInsets.symmetric(
-      horizontal: padding,
-      vertical: constraints.maxHeight > 500 ? 36 : 16,
-    );
+    final vertical = constraints.maxHeight > 500 ? 36.0 : 16.0;
+    pagePadding = EdgeInsets.fromLTRB(padding, vertical, padding, vertical);
     final contentWidth = width - padding * 2;
     isWide = contentWidth > 700;
 
