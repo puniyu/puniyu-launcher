@@ -9,12 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: 1.0.1
+
   cupertino_icons: ^1.0.8
-  shadcn_ui: ^0.54.0
-  lucide_icons_flutter: ^3.1.14+2
-  window_manager: ^0.5.0
+  shadcn_ui: ^0.56.1
   provider: ^6.1.2
 
+  # 窗口管理
+  # nativeapi: ^0.1.4
+  window_manager: ^0.5.2
+
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

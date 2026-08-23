@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart' show runApp, WidgetsFlutterBinding;
+import 'package:flutter/widgets.dart';
 import 'package:puniyu_launcher/app.dart';
-import 'package:puniyu_launcher/windows.dart';
+import 'package:puniyu_launcher/window.dart';
 import 'package:puniyu_launcher/platform.dart';
 
-void main() async {
+Future<void> main() async {
   if (isDesktop()) {
-    WidgetsFlutterBinding.ensureInitialized();
-    await WindowsManger.init();
+    await WindowManger.initialize();
   }
   runApp(const App());
 }

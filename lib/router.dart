@@ -1,17 +1,45 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 
-enum AppRoute {
-  dashboard,
-  logs,
-  settings,
+sealed class Route {
+  const Route();
+
+  String get name;
+  String get path => '/${name}';
+}
+
+final class DashboardRoute extends Route {
+  const DashboardRoute();
+
+  @override
+  String get name => 'dashboard';
+}
+
+final class LogsRoute extends Route {
+  const LogsRoute();
+
+  @override
+  String get name => 'logs';
+}
+
+final class SettingsRoute extends Route {
+  const SettingsRoute();
+
+  @override
+  String get name => 'settings';
 }
 
 class RouterManager extends ChangeNotifier {
-  AppRoute _current = AppRoute.dashboard;
+  static const List<Route> routes = [
+    DashboardRoute(),
+    LogsRoute(),
+    SettingsRoute(),
+  ];
 
-  AppRoute get current => _current;
+  Route _current = routes.first;
 
-  void navigateTo(AppRoute route) {
+  Route get current => _current;
+
+  void navigateTo(Route route) {
     if (_current == route) return;
     _current = route;
     notifyListeners();

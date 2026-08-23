@@ -1,9 +1,13 @@
-import "dart:io";
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, TargetPlatform;
 
 bool isMobile() {
-  return Platform.isAndroid || Platform.isIOS;
+  return defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS;
 }
 
 bool isDesktop() {
-  return Platform.isWindows || Platform.isLinux || Platform.isMacOS;
+  return defaultTargetPlatform == TargetPlatform.linux ||
+      defaultTargetPlatform == TargetPlatform.macOS ||
+      defaultTargetPlatform == TargetPlatform.windows;
 }

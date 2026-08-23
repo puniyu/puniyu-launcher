@@ -1,55 +1,70 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:puniyu_launcher/view/widget/layout.dart';
-import 'package:puniyu_launcher/view/page/dashboard.dart';
-import 'package:puniyu_launcher/view/page/not_found.dart';
+import 'package:puniyu_launcher/view/widget/nav_bar.dart';
+import 'package:puniyu_launcher/view/widget/title_bar.dart';
 import 'package:puniyu_launcher/theme.dart';
 import 'package:puniyu_launcher/themes/pink.dart';
-import 'package:puniyu_launcher/themes/dark.dart';
 import 'package:puniyu_launcher/router.dart';
 
-Widget _buildPage(AppRoute route) {
-  switch (route) {
-    case AppRoute.dashboard:
-      return const Dashboard();
-    case AppRoute.logs:
-      return const NotFoundPage(title: '日志');
-    case AppRoute.settings:
-      return const NotFoundPage(title: '设置');
-  }
-}
-
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final themeManager = ThemeManager();
-    themeManager
-      ..add(Pink.new)
-      ..add(Dark.new);
+  State<App> createState() => _AppState();
+}
 
+class _AppState extends State<App> {
+  late final ThemeManager _themeManager;
+
+  @override
+  void initState() {
+    super.initState();
+    _themeManager = ThemeManager()..register(Pink());
+  }
+
+  @override
+  void dispose() {
+    _themeManager.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: themeManager,
+      animation: _themeManager,
       builder: (context, _) {
-        final baseTheme = themeManager.theme;
-        final themed = baseTheme.copyWith(
+        final lightTheme = _themeManager.lightTheme.copyWith(
+          textTheme: ShadTextTheme(family: 'DouyinSans'),
+        );
+        final darkTheme = _themeManager.darkTheme.copyWith(
           textTheme: ShadTextTheme(family: 'DouyinSans'),
         );
 
-        return ChangeNotifierProvider(
-          create: (_) => RouterManager(),
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: _themeManager),
+            ChangeNotifierProvider(create: (_) => RouterManager()),
+          ],
           child: ShadApp(
             debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Layout(
-                child: Builder(
-                  builder: (context) => _buildPage(context.watch<RouterManager>().current),
-                ),
-              ),
+            home: Builder(
+              builder: (context) {
+                final colors = ShadTheme.of(context).colorScheme;
+                return Scaffold(
+                  backgroundColor: colors.background,
+                  body: Layout(
+                    titleBar: const TitleBar(),
+                    navBar: const NavBar(),
+                    body: const Center(child: Text('Hello World')),
+                  ),
+                );
+              },
             ),
-            theme: themed,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: _themeManager.themeMode,
           ),
         );
       },
