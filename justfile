@@ -10,6 +10,14 @@ set-app-icon:
 set-app-name:
     dart run rename_app:main
 
+gen:
+    just gen-l10n
+    just gen-runner
+gen-l10n:
+    flutter gen-l10n
+
+gen-runner:
+    dart run build_runner build
 run: 
     flutter run
     

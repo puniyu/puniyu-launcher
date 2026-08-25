@@ -1,0 +1,35 @@
+{
+    "@@locale": "en",
+    "appName": "puniyu launcher",
+    "@appName": {
+        "description": "The application name"
+    },
+    "dashboard": "Dashboard",
+    "@dashboard": {
+        "description": "Dashboard page name"
+    },
+    "logs": "Logs",
+    "@logs": {
+        "description": "Logs page name"
+    },
+    "setting": "Setting",
+    "@setting": {
+        "description": "Setting page name"
+    },
+    "minimize": "Minimize",
+    "@minimize": {
+        "description": "Window minimize action"
+    },
+    "maximize": "Maximize",
+    "@maximize": {
+        "description": "Window maximize action"
+    },
+    "restore": "Restore",
+    "@restore": {
+        "description": "Window restore action"
+    },
+    "close": "Close",
+    "@close": {
+        "description": "Window close action"
+    }
+}

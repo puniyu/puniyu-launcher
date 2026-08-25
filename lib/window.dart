@@ -1,4 +1,5 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
+import 'package:material_ui/material_ui.dart' show Colors;
 import 'package:window_manager/window_manager.dart';
 
 class WindowManger {
@@ -6,7 +7,6 @@ class WindowManger {
   static const _minimumSize = Size(800, 600);
 
   static Future<void> initialize() async {
-    WidgetsFlutterBinding.ensureInitialized();
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = WindowOptions(
       size: _size,

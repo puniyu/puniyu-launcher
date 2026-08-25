@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Theme;
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 abstract class Theme {
@@ -6,21 +6,40 @@ abstract class Theme {
   String get name;
   ShadColorScheme get light;
   ShadColorScheme get dark;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Theme && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
+
 class ThemeManager extends ChangeNotifier {
-  ThemeManager();
+  ThemeManager({
+    required List<Theme> themes,
+    Theme? initialTheme,
+    ThemeMode initialMode = ThemeMode.system,
+  }) : _themes = List.unmodifiable(themes),
+       _current = initialTheme ?? themes.first,
+       _themeMode = initialMode {
+    assert(themes.isNotEmpty, 'themes list must not be empty');
+    if (initialTheme != null) {
+      assert(themes.contains(initialTheme), 'initialTheme must be in the themes list');
+    }
+  }
 
-  final List<Theme> _themes = [];
-  late Theme _current;
-  ThemeMode _themeMode = ThemeMode.system;
+  final List<Theme> _themes;
+  Theme _current;
+  ThemeMode _themeMode;
 
-  List<Theme> get themes => List.unmodifiable(_themes);
+  List<Theme> get themes => _themes;
   Theme get current => _current;
   ThemeMode get themeMode => _themeMode;
 
-  ShadColorScheme get lightColorScheme => current.light;
-  ShadColorScheme get darkColorScheme => current.dark;
+  ShadColorScheme get lightColorScheme => _current.light;
+  ShadColorScheme get darkColorScheme => _current.dark;
 
   ShadThemeData get lightTheme => ShadThemeData(
     brightness: Brightness.light,
@@ -30,19 +49,10 @@ class ThemeManager extends ChangeNotifier {
   ShadThemeData get darkTheme =>
       ShadThemeData(brightness: Brightness.dark, colorScheme: darkColorScheme);
 
-  void register(Theme theme) {
-    _themes.add(theme);
-    if (_themes.length == 1) {
-      _current = theme;
-    }
-    notifyListeners();
-  }
-
-  bool setTheme(String id) {
-    final index = _themes.indexWhere((theme) => theme.id == id);
-    if (index == -1 || _current.id == id) return false;
-
-    _current = _themes[index];
+  bool setTheme(Theme theme) {
+    if (_current == theme) return false;
+    if (!_themes.contains(theme)) return false;
+    _current = theme;
     notifyListeners();
     return true;
   }

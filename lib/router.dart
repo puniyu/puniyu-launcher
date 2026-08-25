@@ -1,47 +1,50 @@
-import 'package:flutter/foundation.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
+import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
+import 'package:puniyu_launcher/router.gr.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
-sealed class Route {
-  const Route();
-
-  String get name;
-  String get path => '/${name}';
+Widget _routeTransition(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) {
+  final colors = ShadTheme.of(context).colorScheme;
+  return ColoredBox(
+    color: colors.background,
+    child: FadeTransition(
+      opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+      child: child,
+    ),
+  );
 }
 
-final class DashboardRoute extends Route {
-  const DashboardRoute();
+@AutoRouterConfig()
+class AppRouter extends RootStackRouter {
+  @override
+  RouteType get defaultRouteType => RouteType.custom(
+    transitionsBuilder: _routeTransition,
+    duration: const Duration(milliseconds: 300),
+  );
 
   @override
-  String get name => 'dashboard';
-}
-
-final class LogsRoute extends Route {
-  const LogsRoute();
-
-  @override
-  String get name => 'logs';
-}
-
-final class SettingsRoute extends Route {
-  const SettingsRoute();
-
-  @override
-  String get name => 'settings';
-}
-
-class RouterManager extends ChangeNotifier {
-  static const List<Route> routes = [
-    DashboardRoute(),
-    LogsRoute(),
-    SettingsRoute(),
+  List<AutoRoute> get routes => [
+    AutoRoute(
+      path: '/',
+      page: LayoutRoute.page,
+      initial: true,
+      children: [
+        AutoRoute(
+          page: DashboardRoute.page,
+          initial: true,
+          title: (context, data) => AppLocalizations.of(context).dashboard,
+        ),
+        AutoRoute(
+          page: SettingRoute.page,
+          title: (context, data) => AppLocalizations.of(context).setting,
+        ),
+      ],
+    ),
   ];
-
-  Route _current = routes.first;
-
-  Route get current => _current;
-
-  void navigateTo(Route route) {
-    if (_current == route) return;
-    _current = route;
-    notifyListeners();
-  }
 }

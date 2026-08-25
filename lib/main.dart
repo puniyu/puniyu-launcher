@@ -4,6 +4,7 @@ import 'package:puniyu_launcher/window.dart';
 import 'package:puniyu_launcher/platform.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   if (isDesktop()) {
     await WindowManger.initialize();
   }

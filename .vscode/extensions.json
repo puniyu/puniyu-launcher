@@ -2,6 +2,7 @@
     "recommendations": [
         "alexisvt.flutter-snippets",
         "dart-code.flutter",
-        "dart-code.dart-code"
+        "dart-code.dart-code",
+        "google.arb-editor"
     ]
 }

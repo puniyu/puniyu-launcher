@@ -1,12 +1,11 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:puniyu_launcher/view/widget/layout.dart';
-import 'package:puniyu_launcher/view/widget/nav_bar.dart';
-import 'package:puniyu_launcher/view/widget/title_bar.dart';
 import 'package:puniyu_launcher/theme.dart';
-import 'package:puniyu_launcher/themes/pink.dart';
+import 'package:puniyu_launcher/theme/pink.dart';
 import 'package:puniyu_launcher/router.dart';
+import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -17,15 +16,18 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final ThemeManager _themeManager;
+  late final AppRouter _router;
 
   @override
   void initState() {
     super.initState();
-    _themeManager = ThemeManager()..register(Pink());
+    _themeManager = ThemeManager(themes: [Pink()], initialTheme: Pink());
+    _router = AppRouter();
   }
 
   @override
   void dispose() {
+    _router.dispose();
     _themeManager.dispose();
     super.dispose();
   }
@@ -42,29 +44,21 @@ class _AppState extends State<App> {
           textTheme: ShadTextTheme(family: 'DouyinSans'),
         );
 
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(value: _themeManager),
-            ChangeNotifierProvider(create: (_) => RouterManager()),
-          ],
-          child: ShadApp(
+        return ChangeNotifierProvider.value(
+          value: _themeManager,
+          child: ShadApp.router(
             debugShowCheckedModeBanner: false,
-            home: Builder(
-              builder: (context) {
-                final colors = ShadTheme.of(context).colorScheme;
-                return Scaffold(
-                  backgroundColor: colors.background,
-                  body: Layout(
-                    titleBar: const TitleBar(),
-                    navBar: const NavBar(),
-                    body: const Center(child: Text('Hello World')),
-                  ),
-                );
-              },
-            ),
+            routerConfig: _router.config(),
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: _themeManager.themeMode,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
           ),
         );
       },

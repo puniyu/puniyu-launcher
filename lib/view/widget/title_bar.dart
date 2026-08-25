@@ -1,19 +1,33 @@
-import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
+import 'package:material_ui/material_ui.dart' show Colors;
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
+import 'package:puniyu_launcher/platform.dart';
 
 enum _WindowAction { minimize, maximize, restore, close }
 
-class TitleBar extends StatefulWidget {
-  const TitleBar({super.key, this.title = 'Puniyu Launcher'});
+class TitleBar extends StatelessWidget {
+  const TitleBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final title = isDesktop() ? AppLocalizations.of(context).appName : context.topRoute.title(context);
+    return isDesktop() ? _DeskTop(title: title) : _Mobile(title: title);
+  }
+}
+
+class _DeskTop extends StatefulWidget {
+  const _DeskTop({required this.title});
 
   final String title;
 
   @override
-  State<TitleBar> createState() => _TitleBarState();
+  State<_DeskTop> createState() => _DeskTopState();
 }
 
-class _TitleBarState extends State<TitleBar> {
+class _DeskTopState extends State<_DeskTop> {
   @override
   Widget build(BuildContext context) {
     final theme = ShadTheme.of(context);
@@ -37,8 +51,8 @@ class _TitleBarState extends State<TitleBar> {
                         borderRadius: BorderRadius.circular(4),
                         child: Image.asset(
                           'assets/icons/icon.png',
-                          width: 18,
-                          height: 18,
+                          width: 24,
+                          height: 24,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -153,11 +167,11 @@ class _WindowButtonState extends State<_WindowButton> {
     _WindowAction.close => LucideIcons.x,
   };
 
-  String get _label => switch (widget.action) {
-    _WindowAction.minimize => '最小化',
-    _WindowAction.maximize => '最大化',
-    _WindowAction.restore => '还原',
-    _WindowAction.close => '关闭',
+  String _label(BuildContext context) => switch (widget.action) {
+    _WindowAction.minimize => AppLocalizations.of(context).minimize,
+    _WindowAction.maximize => AppLocalizations.of(context).maximize,
+    _WindowAction.restore => AppLocalizations.of(context).restore,
+    _WindowAction.close => AppLocalizations.of(context).close,
   };
 
   @override
@@ -168,23 +182,64 @@ class _WindowButtonState extends State<_WindowButton> {
 
     return Semantics(
       button: true,
-      label: _label,
+      label: _label(context),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: widget.onAction,
-          child: SizedBox(
-            width: 46,
-            height: 36,
-            child: ColoredBox(
-              color: _isHovered ? widget.hoverBackground : Colors.transparent,
-              child: Icon(
-                _icon,
-                size: 15,
-                color: _isHovered ? widget.hoverForeground : foreground,
+        child: ShadTooltip(
+          waitDuration: const Duration(milliseconds: 800),
+          builder: (context) => Text(_label(context)),
+          child: ShadGestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: widget.onAction,
+            child: SizedBox(
+              width: 46,
+              height: 36,
+              child: ColoredBox(
+                color: _isHovered ? widget.hoverBackground : Colors.transparent,
+                child: Icon(
+                  _icon,
+                  size: 15,
+                  color: _isHovered ? widget.hoverForeground : foreground,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Mobile extends StatelessWidget {
+  const _Mobile({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadTheme.of(context);
+    final colors = theme.colorScheme;
+
+    return ColoredBox(
+      color: colors.background,
+      child: SafeArea(
+        bottom: false,
+        child: SizedBox(
+          height: 48,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.large.copyWith(
+                  color: colors.foreground,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),

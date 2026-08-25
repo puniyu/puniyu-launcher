@@ -1,0 +1,35 @@
+{
+    "@@locale": "zh",
+    "appName": "汐奈启动器",
+    "@appName": {
+        "description": "应用名称"
+    },
+    "dashboard": "控制台",
+    "@dashboard": {
+        "description": "控制台页面名称"
+    },
+    "logs": "日志",
+    "@logs": {
+        "description": "日志页面名称"
+    },
+    "setting": "设置",
+    "@setting": {
+        "description": "设置页面名称"
+    },
+    "minimize": "最小化",
+    "@minimize": {
+        "description": "窗口最小化操作"
+    },
+    "maximize": "最大化",
+    "@maximize": {
+        "description": "窗口最大化操作"
+    },
+    "restore": "还原",
+    "@restore": {
+        "description": "窗口还原操作"
+    },
+    "close": "关闭",
+    "@close": {
+        "description": "窗口关闭操作"
+    }
+}

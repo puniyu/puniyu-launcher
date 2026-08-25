@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart';
 
 bool isMobile() {
   return defaultTargetPlatform == TargetPlatform.android ||
