@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:material_ui/material_ui.dart' show Colors;
 import 'package:window_manager/window_manager.dart';
 
 class WindowManger {
@@ -12,7 +11,7 @@ class WindowManger {
       size: _size,
       minimumSize: _minimumSize,
       center: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color(0x00000000),
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.hidden,
     );

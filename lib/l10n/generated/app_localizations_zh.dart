@@ -31,4 +31,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get close => '关闭';
+
+  @override
+  String get appearance => '外观';
+
+  @override
+  String get themeColor => '主题颜色';
+
+  @override
+  String get themeColorDesc => '选择应用的主题配色方案';
+
+  @override
+  String get themeMode => '主题模式';
+
+  @override
+  String get themeModeDesc => '选择应用的显示模式';
+
+  @override
+  String get themeModeLight => '亮色';
+
+  @override
+  String get themeModeDark => '暗色';
+
+  @override
+  String get themeModeSystem => '跟随系统';
 }

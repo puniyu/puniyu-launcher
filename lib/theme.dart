@@ -1,11 +1,16 @@
-import 'package:flutter/material.dart' hide Theme;
-import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:material_ui/material_ui.dart' hide Theme;
+import 'package:forui/forui.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:puniyu_launcher/theme/blue.dart';
+import 'package:puniyu_launcher/theme/pink.dart';
+
+part 'theme.g.dart';
 
 abstract class Theme {
-  String get id;
+  String get id => name;
   String get name;
-  ShadColorScheme get light;
-  ShadColorScheme get dark;
+  FColors get light;
+  FColors get dark;
 
   @override
   bool operator ==(Object other) =>
@@ -13,54 +18,68 @@ abstract class Theme {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() => name;
 }
 
-
-class ThemeManager extends ChangeNotifier {
+class ThemeManager {
   ThemeManager({
-    required List<Theme> themes,
-    Theme? initialTheme,
-    ThemeMode initialMode = ThemeMode.system,
-  }) : _themes = List.unmodifiable(themes),
-       _current = initialTheme ?? themes.first,
-       _themeMode = initialMode {
-    assert(themes.isNotEmpty, 'themes list must not be empty');
-    if (initialTheme != null) {
-      assert(themes.contains(initialTheme), 'initialTheme must be in the themes list');
-    }
+    required this.themes,
+    required this.currentId,
+    this.themeMode = ThemeMode.system,
+  });
+
+  final List<Theme> themes;
+  final String currentId;
+  final ThemeMode themeMode;
+
+  Theme get current => themes.firstWhere((t) => t.id == currentId);
+  FThemeData get lightTheme => _buildThemeData(current.light);
+  FThemeData get darkTheme => _buildThemeData(current.dark);
+
+  static FThemeData _buildThemeData(FColors colors) {
+    final typeface = FTypeface.inherit(
+      colors: colors,
+      touch: false,
+      fontFamily: 'DouyinSans',
+    );
+    return FThemeData(
+      colors: colors,
+      touch: false,
+      typography: FTypography(display: typeface, body: typeface),
+    );
+  }
+}
+
+@Riverpod(keepAlive: true)
+class ThemeController extends _$ThemeController {
+  @override
+  ThemeManager build() {
+    final themes = [Pink(), Blue()];
+    return ThemeManager(themes: themes, currentId: Pink().id);
   }
 
-  final List<Theme> _themes;
-  Theme _current;
-  ThemeMode _themeMode;
-
-  List<Theme> get themes => _themes;
-  Theme get current => _current;
-  ThemeMode get themeMode => _themeMode;
-
-  ShadColorScheme get lightColorScheme => _current.light;
-  ShadColorScheme get darkColorScheme => _current.dark;
-
-  ShadThemeData get lightTheme => ShadThemeData(
-    brightness: Brightness.light,
-    colorScheme: lightColorScheme,
-  );
-
-  ShadThemeData get darkTheme =>
-      ShadThemeData(brightness: Brightness.dark, colorScheme: darkColorScheme);
-
-  bool setTheme(Theme theme) {
-    if (_current == theme) return false;
-    if (!_themes.contains(theme)) return false;
-    _current = theme;
-    notifyListeners();
+  bool setTheme(String id) {
+    final s = state;
+    if (s.currentId == id) return false;
+    if (!s.themes.any((t) => t.id == id)) return false;
+    state = ThemeManager(
+      themes: s.themes,
+      currentId: id,
+      themeMode: s.themeMode,
+    );
     return true;
   }
 
   bool setThemeMode(ThemeMode mode) {
-    if (_themeMode == mode) return false;
-    _themeMode = mode;
-    notifyListeners();
+    final s = state;
+    if (s.themeMode == mode) return false;
+    state = ThemeManager(
+      themes: s.themes,
+      currentId: s.currentId,
+      themeMode: mode,
+    );
     return true;
   }
 }

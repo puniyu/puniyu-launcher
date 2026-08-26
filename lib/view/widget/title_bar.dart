@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/widgets.dart';
-import 'package:material_ui/material_ui.dart' show Colors;
-import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:flutter/material.dart' hide Theme;
+import 'package:forui/forui.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
 import 'package:puniyu_launcher/platform.dart';
@@ -13,7 +12,9 @@ class TitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = isDesktop() ? AppLocalizations.of(context).appName : context.topRoute.title(context);
+    final title = isDesktop()
+        ? AppLocalizations.of(context).appName
+        : context.topRoute.title(context);
     return isDesktop() ? _DeskTop(title: title) : _Mobile(title: title);
   }
 }
@@ -30,8 +31,7 @@ class _DeskTop extends StatefulWidget {
 class _DeskTopState extends State<_DeskTop> {
   @override
   Widget build(BuildContext context) {
-    final theme = ShadTheme.of(context);
-    final colors = theme.colorScheme;
+    final colors = context.theme.colors;
 
     return SizedBox(
       width: double.infinity,
@@ -51,8 +51,8 @@ class _DeskTopState extends State<_DeskTop> {
                         borderRadius: BorderRadius.circular(4),
                         child: Image.asset(
                           'assets/icons/icon.png',
-                          width: 24,
-                          height: 24,
+                          width: 18,
+                          height: 18,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -62,7 +62,7 @@ class _DeskTopState extends State<_DeskTop> {
                           widget.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.small.copyWith(
+                          style: context.theme.typography.body.sm.copyWith(
                             color: colors.foreground,
                             fontWeight: FontWeight.w600,
                           ),
@@ -111,7 +111,7 @@ class _WindowState extends State<_Window> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    final colors = ShadTheme.of(context).colorScheme;
+    final colors = context.theme.colors;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -161,10 +161,10 @@ class _WindowButtonState extends State<_WindowButton> {
   bool _isHovered = false;
 
   IconData get _icon => switch (widget.action) {
-    _WindowAction.minimize => LucideIcons.minus,
-    _WindowAction.maximize => LucideIcons.maximize2,
-    _WindowAction.restore => LucideIcons.copy,
-    _WindowAction.close => LucideIcons.x,
+    _WindowAction.minimize => FLucideIcons.minus,
+    _WindowAction.maximize => FLucideIcons.maximize2,
+    _WindowAction.restore => FLucideIcons.copy,
+    _WindowAction.close => FLucideIcons.x,
   };
 
   String _label(BuildContext context) => switch (widget.action) {
@@ -176,21 +176,18 @@ class _WindowButtonState extends State<_WindowButton> {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = ShadTheme.of(
-      context,
-    ).colorScheme.foreground.withValues(alpha: 0.72);
+    final foreground = context.theme.colors.foreground.withValues(alpha: 0.72);
 
-    return Semantics(
-      button: true,
-      label: _label(context),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: ShadTooltip(
-          waitDuration: const Duration(milliseconds: 800),
-          builder: (context) => Text(_label(context)),
-          child: ShadGestureDetector(
+    return FTooltip(
+      tipBuilder: (_, _) => Text(_label(context)),
+      child: Semantics(
+        button: true,
+        label: _label(context),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _isHovered = true),
+          onExit: (_) => setState(() => _isHovered = false),
+          child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: widget.onAction,
             child: SizedBox(
@@ -219,8 +216,7 @@ class _Mobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ShadTheme.of(context);
-    final colors = theme.colorScheme;
+    final colors = context.theme.colors;
 
     return ColoredBox(
       color: colors.background,
@@ -236,7 +232,7 @@ class _Mobile extends StatelessWidget {
                 title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.large.copyWith(
+                style: context.theme.typography.display.lg.copyWith(
                   color: colors.foreground,
                   fontWeight: FontWeight.w600,
                 ),

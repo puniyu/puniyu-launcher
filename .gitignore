@@ -5,3 +5,5 @@
 .flutter-plugins-dependencies
 build/
 .fvm/
+# Widget Preview related
+.widget_preview/

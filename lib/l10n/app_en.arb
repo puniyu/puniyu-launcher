@@ -31,5 +31,37 @@
     "close": "Close",
     "@close": {
         "description": "Window close action"
+    },
+    "appearance": "Appearance",
+    "@appearance": {
+        "description": "Appearance settings page title"
+    },
+    "themeColor": "Theme Color",
+    "@themeColor": {
+        "description": "Theme color setting title"
+    },
+    "themeColorDesc": "Choose the color scheme for the app",
+    "@themeColorDesc": {
+        "description": "Theme color setting description"
+    },
+    "themeMode": "Theme Mode",
+    "@themeMode": {
+        "description": "Theme mode setting title"
+    },
+    "themeModeDesc": "Choose the display mode for the app",
+    "@themeModeDesc": {
+        "description": "Theme mode setting description"
+    },
+    "themeModeLight": "Light",
+    "@themeModeLight": {
+        "description": "Light mode"
+    },
+    "themeModeDark": "Dark",
+    "@themeModeDark": {
+        "description": "Dark mode"
+    },
+    "themeModeSystem": "System",
+    "@themeModeSystem": {
+        "description": "Follow system theme mode"
     }
 }

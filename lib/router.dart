@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
+import 'package:forui/forui.dart';
 import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
 import 'package:puniyu_launcher/router.gr.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
 
 Widget _routeTransition(
   BuildContext context,
@@ -10,7 +10,7 @@ Widget _routeTransition(
   Animation<double> secondaryAnimation,
   Widget child,
 ) {
-  final colors = ShadTheme.of(context).colorScheme;
+  final colors = context.theme.colors;
   return ColoredBox(
     color: colors.background,
     child: FadeTransition(

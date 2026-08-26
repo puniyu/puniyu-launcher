@@ -31,5 +31,37 @@
     "close": "关闭",
     "@close": {
         "description": "窗口关闭操作"
+    },
+    "appearance": "外观",
+    "@appearance": {
+        "description": "外观设置页面标题"
+    },
+    "themeColor": "主题颜色",
+    "@themeColor": {
+        "description": "主题颜色设置项标题"
+    },
+    "themeColorDesc": "选择应用的主题配色方案",
+    "@themeColorDesc": {
+        "description": "主题颜色设置项描述"
+    },
+    "themeMode": "主题模式",
+    "@themeMode": {
+        "description": "主题模式设置项标题"
+    },
+    "themeModeDesc": "选择应用的显示模式",
+    "@themeModeDesc": {
+        "description": "主题模式设置项描述"
+    },
+    "themeModeLight": "亮色",
+    "@themeModeLight": {
+        "description": "亮色模式"
+    },
+    "themeModeDark": "暗色",
+    "@themeModeDark": {
+        "description": "暗色模式"
+    },
+    "themeModeSystem": "跟随系统",
+    "@themeModeSystem": {
+        "description": "跟随系统主题模式"
     }
 }

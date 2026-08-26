@@ -1,86 +1,51 @@
 import 'package:flutter/material.dart' hide Theme;
-import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:flutter/services.dart';
+import 'package:forui/forui.dart';
 import 'package:puniyu_launcher/theme.dart';
 
 class Pink extends Theme {
-  // 命名色
-  static const _cherryPink = Color.fromRGBO(247, 196, 212, 1);
-  static const _peach = Color.fromRGBO(255, 221, 230, 1);
-  static const _morningDew = Color.fromRGBO(255, 234, 242, 1);
-  static const _plainWhite = Color.fromRGBO(255, 246, 247, 1);
-
-  // 暗色
-  static const _deepPlum = Color.fromRGBO(36, 23, 29, 1);
-  static const _darkRose = Color.fromRGBO(52, 33, 42, 1);
-  static const _dustyRose = Color.fromRGBO(66, 40, 51, 1);
-  static const _mauve = Color.fromRGBO(90, 53, 68, 1);
-  static const _plum = Color.fromRGBO(87, 52, 66, 1);
-  static const _berry = Color.fromRGBO(104, 64, 82, 1);
-  static const _deepBerry = Color.fromRGBO(106, 60, 77, 1);
-
-  // 文字色
-  static const _darkText = Color.fromRGBO(61, 37, 46, 1);
-  static const _mediumText = Color.fromRGBO(77, 45, 57, 1);
-  static const _mutedText = Color.fromRGBO(139, 102, 115, 1);
-  static const _lightMutedText = Color.fromRGBO(230, 185, 200, 1);
-
-  // 强调色
-  static const _roseRed = Color.fromRGBO(217, 74, 106, 1);
-  static const _softRed = Color.fromRGBO(232, 121, 146, 1);
-  static const _pinkBorder = Color.fromRGBO(233, 182, 200, 1);
-  static const _pinkInput = Color.fromRGBO(255, 210, 222, 1);
+  @override
+  String get name => "pink";
 
   @override
-  String get id => 'pink';
-
-  @override
-  String get name => id;
-
-  @override
-  ShadColorScheme get light => const ShadColorScheme(
-    background: _plainWhite,
-    foreground: _darkText,
+  FColors get light => FColors(
+    brightness: Brightness.light,
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
+    barrier: Colors.black26,
+    background: const Color.fromRGBO(255, 246, 247, 1),
+    foreground: const Color.fromRGBO(71, 48, 58, 1),
     card: Colors.white,
-    cardForeground: _darkText,
-    popover: Colors.white,
-    popoverForeground: _darkText,
-    primary: _cherryPink,
-    primaryForeground: _darkText,
-    secondary: _peach,
-    secondaryForeground: _mediumText,
-    muted: _morningDew,
-    mutedForeground: _mutedText,
-    accent: _morningDew,
-    accentForeground: _mediumText,
-    destructive: _roseRed,
+    primary: const Color.fromRGBO(247, 196, 212, 1),
+    primaryForeground: const Color.fromRGBO(71, 48, 58, 1),
+    secondary: const Color.fromRGBO(255, 221, 230, 1),
+    secondaryForeground: const Color.fromRGBO(96, 68, 79, 1),
+    muted: const Color.fromRGBO(255, 234, 242, 1),
+    mutedForeground: const Color.fromRGBO(145, 116, 128, 1),
+    destructive: const Color.fromRGBO(190, 60, 91, 1),
     destructiveForeground: Colors.white,
-    border: _pinkBorder,
-    input: _pinkInput,
-    ring: _cherryPink,
-    selection: _peach,
+    error: const Color.fromRGBO(190, 60, 91, 1),
+    errorForeground: Colors.white,
+    border: const Color.fromRGBO(244, 207, 220, 1),
   );
 
   @override
-  ShadColorScheme get dark => const ShadColorScheme(
-    background: _deepPlum,
-    foreground: _plainWhite,
-    card: _darkRose,
-    cardForeground: _plainWhite,
-    popover: _darkRose,
-    popoverForeground: _plainWhite,
-    primary: _cherryPink,
-    primaryForeground: _darkText,
-    secondary: _mauve,
-    secondaryForeground: _plainWhite,
-    muted: _dustyRose,
-    mutedForeground: _lightMutedText,
-    accent: _plum,
-    accentForeground: _plainWhite,
-    destructive: _softRed,
-    destructiveForeground: _deepPlum,
-    border: _berry,
-    input: _dustyRose,
-    ring: _peach,
-    selection: _deepBerry,
+  FColors get dark => FColors(
+    brightness: Brightness.dark,
+    systemOverlayStyle: SystemUiOverlayStyle.light,
+    barrier: Colors.black54,
+    background: const Color.fromRGBO(27, 18, 24, 1),
+    foreground: const Color.fromRGBO(255, 246, 247, 1),
+    card: const Color.fromRGBO(42, 27, 36, 1),
+    primary: const Color.fromRGBO(229, 142, 172, 1),
+    primaryForeground: const Color.fromRGBO(27, 18, 24, 1),
+    secondary: const Color.fromRGBO(59, 37, 49, 1),
+    secondaryForeground: const Color.fromRGBO(255, 246, 247, 1),
+    muted: const Color.fromRGBO(78, 48, 64, 1),
+    mutedForeground: const Color.fromRGBO(230, 185, 200, 1),
+    destructive: const Color.fromRGBO(232, 121, 146, 1),
+    destructiveForeground: const Color.fromRGBO(27, 18, 24, 1),
+    error: const Color.fromRGBO(232, 121, 146, 1),
+    errorForeground: const Color.fromRGBO(27, 18, 24, 1),
+    border: const Color.fromRGBO(112, 68, 89, 1),
   );
 }

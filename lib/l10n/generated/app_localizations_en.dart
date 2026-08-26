@@ -31,4 +31,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get themeColor => 'Theme Color';
+
+  @override
+  String get themeColorDesc => 'Choose the color scheme for the app';
+
+  @override
+  String get themeMode => 'Theme Mode';
+
+  @override
+  String get themeModeDesc => 'Choose the display mode for the app';
+
+  @override
+  String get themeModeLight => 'Light';
+
+  @override
+  String get themeModeDark => 'Dark';
+
+  @override
+  String get themeModeSystem => 'System';
 }

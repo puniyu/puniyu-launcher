@@ -4,7 +4,7 @@ import 'package:puniyu_launcher/platform.dart';
 import 'package:puniyu_launcher/view/widget/nav_bar.dart';
 import 'package:puniyu_launcher/view/widget/title_bar.dart';
 
-@RoutePage(name: 'LayoutRoute')
+@RoutePage()
 class LayoutPage extends StatelessWidget {
   const LayoutPage({super.key});
 
@@ -17,7 +17,7 @@ class LayoutPage extends StatelessWidget {
       return _Desktop(titleBar: titleBar, navBar: navBar);
     }
 
-    return _Mobile(titleBar: titleBar, navBar: navBar);
+    return _Mobile(titleBar: const SizedBox.shrink(), navBar: navBar);
   }
 }
 
@@ -29,15 +29,15 @@ class _Desktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        navBar,
+        titleBar,
         Expanded(
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              titleBar,
+              navBar,
               const Expanded(child: AutoRouter()),
             ],
           ),

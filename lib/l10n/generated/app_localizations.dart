@@ -145,6 +145,54 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'关闭'**
   String get close;
+
+  /// 外观设置页面标题
+  ///
+  /// In zh, this message translates to:
+  /// **'外观'**
+  String get appearance;
+
+  /// 主题颜色设置项标题
+  ///
+  /// In zh, this message translates to:
+  /// **'主题颜色'**
+  String get themeColor;
+
+  /// 主题颜色设置项描述
+  ///
+  /// In zh, this message translates to:
+  /// **'选择应用的主题配色方案'**
+  String get themeColorDesc;
+
+  /// 主题模式设置项标题
+  ///
+  /// In zh, this message translates to:
+  /// **'主题模式'**
+  String get themeMode;
+
+  /// 主题模式设置项描述
+  ///
+  /// In zh, this message translates to:
+  /// **'选择应用的显示模式'**
+  String get themeModeDesc;
+
+  /// 亮色模式
+  ///
+  /// In zh, this message translates to:
+  /// **'亮色'**
+  String get themeModeLight;
+
+  /// 暗色模式
+  ///
+  /// In zh, this message translates to:
+  /// **'暗色'**
+  String get themeModeDark;
+
+  /// 跟随系统主题模式
+  ///
+  /// In zh, this message translates to:
+  /// **'跟随系统'**
+  String get themeModeSystem;
 }
 
 class _AppLocalizationsDelegate
