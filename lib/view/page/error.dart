@@ -1,41 +1,36 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart' hide Theme;
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
+import 'package:material_ui/material_ui.dart' show Colors, SelectableText;
 import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
 import 'package:puniyu_launcher/platform.dart';
-import 'package:puniyu_launcher/router.gr.dart';
 
-class Error extends StatelessWidget {
-  const Error({
-    super.key,
-    required this.title,
-    this.subTitle,
-    this.description,
-  });
+@RoutePage()
+class ErrorPage extends StatelessWidget {
+  const ErrorPage({super.key, required this.description});
 
-  final String title;
-  final String? subTitle;
-  final String? description;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
-    void callback() {
-      AutoRouter.of(context).navigate(const DashboardRoute());
+    final l10n = AppLocalizations.of(context);
+    void onBack() {
+      AutoRouter.of(context).pop();
     }
 
     return isDesktop()
         ? _Desktop(
-            title: title,
-            subTitle: subTitle,
+            title: l10n.errorTitle,
+            subTitle: l10n.errorDescription,
             description: description,
-            onBack: callback,
+            onBack: onBack,
           )
         : _Mobile(
-            title: title,
-            subTitle: subTitle,
+            title: l10n.errorTitle,
+            subTitle: l10n.errorDescription,
             description: description,
-            onBack: callback,
+            onBack: onBack,
           );
   }
 }
@@ -342,7 +337,9 @@ class _CopyButtonState extends State<_CopyButton> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final icon = _copied ? FLucideIcons.check : FLucideIcons.copy;
-    final label = _copied ? l10n.copied : l10n.copyDetails(l10n.copy, l10n.details);
+    final label = _copied
+        ? l10n.copied
+        : l10n.copyDetails(l10n.copy, l10n.details);
 
     if (isDesktop()) {
       final colors = context.theme.colors;

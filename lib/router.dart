@@ -45,5 +45,6 @@ class AppRouter extends RootStackRouter {
         ),
       ],
     ),
+    AutoRoute(page: ErrorRoute.page),
   ];
 }
