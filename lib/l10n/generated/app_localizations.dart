@@ -193,6 +193,48 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'跟随系统'**
   String get themeModeSystem;
+
+  /// 返回上一页面的通用操作
+  ///
+  /// In zh, this message translates to:
+  /// **'返回'**
+  String get back;
+
+  /// 详情的通用标签
+  ///
+  /// In zh, this message translates to:
+  /// **'详情'**
+  String get details;
+
+  /// 复制的通用操作
+  ///
+  /// In zh, this message translates to:
+  /// **'复制'**
+  String get copy;
+
+  /// 复制详情
+  ///
+  /// In zh, this message translates to:
+  /// **'{copy}{details}'**
+  String copyDetails(String copy, String details);
+
+  /// 复制成功后的通用提示
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制'**
+  String get copied;
+
+  /// 错误页兜底标题
+  ///
+  /// In zh, this message translates to:
+  /// **'出现问题'**
+  String get errorTitle;
+
+  /// 错误页兜底说明
+  ///
+  /// In zh, this message translates to:
+  /// **'发生了意外问题。你可以复制下方详情以便反馈，或返回上一页面。'**
+  String get errorDescription;
 }
 
 class _AppLocalizationsDelegate

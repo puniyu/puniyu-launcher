@@ -55,4 +55,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeModeSystem => 'System';
+
+  @override
+  String get back => 'Go back';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String copyDetails(String copy, String details) {
+    return '$copy $details';
+  }
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get errorTitle => 'Something went wrong';
+
+  @override
+  String get errorDescription =>
+      'An unexpected problem occurred. You can copy the details below to report the issue, or go back.';
 }

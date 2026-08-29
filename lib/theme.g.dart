@@ -41,7 +41,7 @@ final class ThemeControllerProvider
   }
 }
 
-String _$themeControllerHash() => r'3b308d79ed3a85d6dd66b7aabda92ef93390e134';
+String _$themeControllerHash() => r'7c8988a8abb2aadfd9b7b4d91768579bc241a60e';
 
 abstract class _$ThemeController extends $Notifier<ThemeManager> {
   ThemeManager build();

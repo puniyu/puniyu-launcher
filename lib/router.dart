@@ -31,7 +31,6 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(
-      path: '/',
       page: LayoutRoute.page,
       initial: true,
       children: [

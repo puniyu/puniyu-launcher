@@ -63,5 +63,41 @@
     "themeModeSystem": "System",
     "@themeModeSystem": {
         "description": "Follow system theme mode"
+    },
+    "back": "Go back",
+    "@back": {
+        "description": "Generic action to go back to the previous page"
+    },
+    "details": "Details",
+    "@details": {
+        "description": "Generic label for details"
+    },
+    "copy": "Copy",
+    "@copy": {
+        "description": "Generic copy action"
+    },
+    "copyDetails": "{copy} {details}",
+    "@copyDetails": {
+        "placeholders": {
+            "copy": {
+                "type": "String"
+            },
+            "details": {
+                "type": "String"
+            }
+        },
+        "description": "Copy details"
+    },
+    "copied": "Copied",
+    "@copied": {
+        "description": "Generic toast message shown after copying"
+    },
+    "errorTitle": "Something went wrong",
+    "@errorTitle": {
+        "description": "Fallback title shown on the error page"
+    },
+    "errorDescription": "An unexpected problem occurred. You can copy the details below to report the issue, or go back.",
+    "@errorDescription": {
+        "description": "Fallback description shown on the error page"
     }
 }

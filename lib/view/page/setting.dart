@@ -1,179 +1,179 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
 import 'package:material_ui/material_ui.dart' hide Theme;
 import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/theme.dart';
+import 'package:puniyu_launcher/platform.dart';
+import 'package:puniyu_launcher/view/page/setting/appearance.dart';
 
 @RoutePage()
-class SettingPage extends ConsumerWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(themeControllerProvider);
-    final controller = ref.read(themeControllerProvider.notifier);
-    final l10n = AppLocalizations.of(context);
+  State<SettingPage> createState() => _SettingPageState();
+}
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(l10n.appearance, style: context.theme.typography.display.xl2),
-          const SizedBox(height: 24),
-          FCard(
+class _SettingPageState extends State<SettingPage> {
+  final _sections = [
+    _SettingSection(
+      label: (l10n) => l10n.appearance,
+      child: const AppearanceSetting(),
+    ),
+  ];
+
+  int _selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final selectedIndex = _selectedIndex.clamp(0, _sections.length - 1);
+    final selectedSection = _sections[selectedIndex];
+
+    return isDesktop()
+        ? _Desktop(
+            sections: _sections,
+            selectedIndex: selectedIndex,
+            selectedChild: selectedSection.content,
+            onSelect: (index) => setState(() => _selectedIndex = index),
+            l10n: l10n,
+          )
+        : _Mobile(child: selectedSection.content);
+  }
+}
+
+class _SettingSection {
+  _SettingSection({required this.label, required this.child});
+
+  final String Function(AppLocalizations) label;
+  final GlobalKey key = GlobalKey();
+  final Widget child;
+
+  Widget get content => KeyedSubtree(key: key, child: child);
+}
+
+class _Mobile extends StatelessWidget {
+  const _Mobile({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => child;
+}
+
+class _Desktop extends StatelessWidget {
+  const _Desktop({
+    required this.sections,
+    required this.selectedIndex,
+    required this.selectedChild,
+    required this.onSelect,
+    required this.l10n,
+  });
+
+  final List<_SettingSection> sections;
+  final int selectedIndex;
+  final Widget selectedChild;
+  final ValueChanged<int> onSelect;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.theme.colors;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          width: 232,
+          child: ColoredBox(
+            color: colors.background,
             child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.themeColor,
-                    style: context.theme.typography.display.lg,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.themeColorDesc,
-                    style: context.theme.typography.body.sm.copyWith(
-                      color: context.theme.colors.mutedForeground,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 12,
-                    children: manager.themes.map((theme) {
-                      return _ThemeColorItem(
-                        color: theme.light.primary,
-                        isSelected: manager.current == theme,
-                        onTap: () => controller.setTheme(theme.id),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          FCard(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.themeMode,
-                    style: context.theme.typography.display.lg,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.themeModeDesc,
-                    style: context.theme.typography.body.sm.copyWith(
-                      color: context.theme.colors.mutedForeground,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
                     children: [
-                      _ThemeModeItem(
-                        icon: FLucideIcons.sun,
-                        label: l10n.themeModeLight,
-                        isSelected: manager.themeMode == ThemeMode.light,
-                        onTap: () => controller.setThemeMode(ThemeMode.light),
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOutCubic,
+                        top: selectedIndex * 48.0,
+                        left: 0,
+                        right: 0,
+                        height: 44,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: colors.primary,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 12),
-                      _ThemeModeItem(
-                        icon: FLucideIcons.moon,
-                        label: l10n.themeModeDark,
-                        isSelected: manager.themeMode == ThemeMode.dark,
-                        onTap: () => controller.setThemeMode(ThemeMode.dark),
-                      ),
-                      const SizedBox(width: 12),
-                      _ThemeModeItem(
-                        icon: FLucideIcons.monitor,
-                        label: l10n.themeModeSystem,
-                        isSelected: manager.themeMode == ThemeMode.system,
-                        onTap: () => controller.setThemeMode(ThemeMode.system),
+                      Positioned.fill(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < sections.length; i++)
+                              _SectionMenuItem(
+                                label: sections[i].label(l10n),
+                                selected: i == selectedIndex,
+                                onTap: () => onSelect(i),
+                              ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        Expanded(child: selectedChild),
+      ],
     );
   }
 }
 
-class _ThemeColorItem extends StatelessWidget {
-  const _ThemeColorItem({
-    required this.color,
-    required this.isSelected,
+class _SectionMenuItem extends StatelessWidget {
+  const _SectionMenuItem({
+    required this.label,
+    required this.selected,
     required this.onTap,
   });
 
-  final Color color;
-  final bool isSelected;
+  final String label;
+  final bool selected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: isSelected ? colors.primary : colors.border,
-            width: isSelected ? 3 : 1.5,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: SizedBox(
+          height: 44,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.theme.typography.body.sm.copyWith(
+                  color: selected
+                      ? colors.primaryForeground
+                      : colors.foreground,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ),
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.4),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
         ),
-        child: isSelected
-            ? Icon(FLucideIcons.check, size: 18, color: colors.background)
-            : null,
-      ),
-    );
-  }
-}
-
-class _ThemeModeItem extends StatelessWidget {
-  const _ThemeModeItem({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return FButton(
-      onPress: onTap,
-      variant: isSelected ? FButtonVariant.primary : FButtonVariant.outline,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [Icon(icon, size: 16), const SizedBox(width: 8), Text(label)],
       ),
     );
   }

@@ -55,4 +55,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get themeModeSystem => '跟随系统';
+
+  @override
+  String get back => '返回';
+
+  @override
+  String get details => '详情';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String copyDetails(String copy, String details) {
+    return '$copy$details';
+  }
+
+  @override
+  String get copied => '已复制';
+
+  @override
+  String get errorTitle => '出现问题';
+
+  @override
+  String get errorDescription => '发生了意外问题。你可以复制下方详情以便反馈，或返回上一页面。';
 }

@@ -63,5 +63,41 @@
     "themeModeSystem": "跟随系统",
     "@themeModeSystem": {
         "description": "跟随系统主题模式"
+    },
+    "back": "返回",
+    "@back": {
+        "description": "返回上一页面的通用操作"
+    },
+    "details": "详情",
+    "@details": {
+        "description": "详情的通用标签"
+    },
+    "copy": "复制",
+    "@copy": {
+        "description": "复制的通用操作"
+    },
+    "copyDetails": "{copy}{details}",
+    "@copyDetails": {
+        "placeholders": {
+            "copy": {
+                "type": "String"
+            },
+            "details": {
+                "type": "String"
+            }
+        },
+        "description": "复制详情"
+    },
+    "copied": "已复制",
+    "@copied": {
+        "description": "复制成功后的通用提示"
+    },
+    "errorTitle": "出现问题",
+    "@errorTitle": {
+        "description": "错误页兜底标题"
+    },
+    "errorDescription": "发生了意外问题。你可以复制下方详情以便反馈，或返回上一页面。",
+    "@errorDescription": {
+        "description": "错误页兜底说明"
     }
 }

@@ -17,7 +17,7 @@ class LayoutPage extends StatelessWidget {
       return _Desktop(titleBar: titleBar, navBar: navBar);
     }
 
-    return _Mobile(titleBar: const SizedBox.shrink(), navBar: navBar);
+    return _Mobile(titleBar: titleBar, navBar: navBar);
   }
 }
 
