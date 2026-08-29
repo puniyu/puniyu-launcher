@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 import 'package:material_ui/material_ui.dart' hide Theme;
 import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/platform.dart';
 import 'package:puniyu_launcher/theme.dart';
 import 'package:puniyu_launcher/view/widget/setting.dart';
 
@@ -14,6 +13,26 @@ class AppearanceSetting extends ConsumerWidget {
     final manager = ref.watch(themeControllerProvider);
     final controller = ref.read(themeControllerProvider.notifier);
     final l10n = AppLocalizations.of(context);
+    final themeModeItems = [
+      _ThemeModeItem(
+        icon: FLucideIcons.sun,
+        label: l10n.themeModeLight,
+        isSelected: manager.themeMode == ThemeMode.light,
+        onTap: () => controller.setThemeMode(ThemeMode.light),
+      ),
+      _ThemeModeItem(
+        icon: FLucideIcons.moon,
+        label: l10n.themeModeDark,
+        isSelected: manager.themeMode == ThemeMode.dark,
+        onTap: () => controller.setThemeMode(ThemeMode.dark),
+      ),
+      _ThemeModeItem(
+        icon: FLucideIcons.monitor,
+        label: l10n.themeModeSystem,
+        isSelected: manager.themeMode == ThemeMode.system,
+        onTap: () => controller.setThemeMode(ThemeMode.system),
+      ),
+    ];
 
     return SettingGroup(
       title: l10n.appearance,
@@ -21,79 +40,30 @@ class AppearanceSetting extends ConsumerWidget {
         SettingItem(
           title: l10n.themeColor,
           subTitle: l10n.themeColorDesc,
-          content: LayoutBuilder(
-            builder: (context, constraints) {
-              final items = manager.themes.map((theme) {
-                return _ThemeColorItem(
+          content: Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: [
+              for (final theme in manager.themes)
+                _ThemeColorItem(
                   color: theme.light.primary,
                   label: theme.name,
                   isSelected: manager.current == theme,
                   onTap: () => controller.setTheme(theme.id),
-                );
-              }).toList();
-
-              if (isMobile()) {
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (int i = 0; i < items.length; i++) ...[
-                      if (i > 0) const SizedBox(width: 12),
-                      items[i],
-                    ],
-                  ],
-                );
-              }
-
-              return Wrap(spacing: 12, runSpacing: 12, children: items);
-            },
+                ),
+            ],
           ),
         ),
         SettingItem(
           title: l10n.themeMode,
           subTitle: l10n.themeModeDesc,
-          content: LayoutBuilder(
-            builder: (context, constraints) {
-              final items = [
-                _ThemeModeItem(
-                  icon: FLucideIcons.sun,
-                  label: l10n.themeModeLight,
-                  isSelected: manager.themeMode == ThemeMode.light,
-                  onTap: () => controller.setThemeMode(ThemeMode.light),
-                ),
-                _ThemeModeItem(
-                  icon: FLucideIcons.moon,
-                  label: l10n.themeModeDark,
-                  isSelected: manager.themeMode == ThemeMode.dark,
-                  onTap: () => controller.setThemeMode(ThemeMode.dark),
-                ),
-                _ThemeModeItem(
-                  icon: FLucideIcons.monitor,
-                  label: l10n.themeModeSystem,
-                  isSelected: manager.themeMode == ThemeMode.system,
-                  onTap: () => controller.setThemeMode(ThemeMode.system),
-                ),
-              ];
-
-              if (isMobile()) {
-                return Row(
-                  children: [
-                    for (int i = 0; i < items.length; i++) ...[
-                      if (i > 0) const SizedBox(width: 8),
-                      Expanded(child: items[i]),
-                    ],
-                  ],
-                );
-              }
-
-              return Row(
-                children: [
-                  for (int i = 0; i < items.length; i++) ...[
-                    if (i > 0) const SizedBox(width: 8),
-                    Expanded(child: items[i]),
-                  ],
-                ],
-              );
-            },
+          content: Row(
+            children: [
+              for (final (index, item) in themeModeItems.indexed) ...[
+                if (index > 0) const SizedBox(width: 8),
+                Expanded(child: item),
+              ],
+            ],
           ),
         ),
       ],

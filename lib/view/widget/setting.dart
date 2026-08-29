@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
-import 'package:material_ui/material_ui.dart' hide Theme;
+import 'package:puniyu_launcher/platform.dart';
 
 class SettingItem extends StatelessWidget {
   const SettingItem({
@@ -16,10 +16,42 @@ class SettingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final header = _ItemHeader(title: title, subTitle: subTitle);
+
+    if (isDesktop()) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(flex: 2, child: header),
+          const SizedBox(width: 24),
+          Flexible(
+            flex: 3,
+            child: Align(alignment: Alignment.centerRight, child: content),
+          ),
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      children: [header, const SizedBox(height: 16), content],
+    );
+  }
+}
+
+class _ItemHeader extends StatelessWidget {
+  const _ItemHeader({required this.title, required this.subTitle});
+
+  final String title;
+  final String subTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(title, style: context.theme.typography.display.lg),
+        Text(title, style: context.theme.typography.display.md),
         const SizedBox(height: 4),
         Text(
           subTitle,
@@ -27,70 +59,43 @@ class SettingItem extends StatelessWidget {
             color: context.theme.colors.mutedForeground,
           ),
         ),
-        const SizedBox(height: 16),
-        content,
       ],
     );
   }
 }
 
 class SettingGroup extends StatelessWidget {
-  const SettingGroup({
-    super.key,
-    required this.title,
-    required this.items,
-    this.header,
-  });
+  const SettingGroup({super.key, required this.title, required this.items});
 
   final String title;
   final List<SettingItem> items;
-  final Widget? header;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        const pagePadding = 24.0;
-        final contentWidth = (constraints.maxWidth - pagePadding * 2).clamp(
-          0.0,
-          880.0,
-        );
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(pagePadding),
-          child: SizedBox(
-            width: contentWidth,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: context.theme.typography.display.lg),
+        const SizedBox(height: 12),
+        FCard(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (header case final header?) ...[
-                  header,
-                  const SizedBox(height: 24),
+                for (final (index, item) in items.indexed) ...[
+                  if (index > 0) ...[
+                    const SizedBox(height: 16),
+                    Container(height: 1, color: context.theme.colors.border),
+                    const SizedBox(height: 16),
+                  ],
+                  item,
                 ],
-                FCard(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: context.theme.typography.display.xl2,
-                        ),
-                        const SizedBox(height: 16),
-                        for (final item in items) ...[
-                          item,
-                          if (item != items.last) const SizedBox(height: 16),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
