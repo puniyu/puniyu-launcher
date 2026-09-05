@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
 import 'package:puniyu_launcher/platform.dart';
 import 'package:puniyu_launcher/router.gr.dart';
@@ -173,122 +174,83 @@ class _Mobile extends StatelessWidget {
     );
 
     return ColoredBox(
-      color: colors.secondary,
+      color: colors.background,
       child: SafeArea(
         top: false,
-        bottom: false,
-        child: SizedBox(
-          height: 72,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                const pillWidth = 64.0;
-                const pillHeight = 32.0;
-                final itemWidth = constraints.maxWidth / items.length;
-                final left = selectedIndex < 0
-                    ? 0.0
-                    : selectedIndex * itemWidth + (itemWidth - pillWidth) / 2;
-
-                return Stack(
-                  children: [
-                    if (selectedIndex >= 0)
-                      AnimatedPositioned(
-                        duration: const Duration(milliseconds: 320),
-                        curve: Curves.easeInOutCubic,
-                        left: left,
-                        top: 8,
-                        width: pillWidth,
-                        height: pillHeight,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: colors.primary,
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                        ),
-                      ),
-                    Positioned(
-                      top: 8,
-                      left: 0,
-                      right: 0,
-                      child: Row(
-                        children: [
-                          for (final item in items)
-                            Expanded(
-                              child: _MobileItem(
-                                item: item,
-                                selected: item.route.routeName == currentRoute,
-                                onTap: () =>
-                                    AutoRouter.of(context).navigate(item.route),
-                              ),
-                            ),
-                        ],
+        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+        child: Container(
+          height: 70,
+          decoration: BoxDecoration(
+            color: colors.card.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final itemW = constraints.maxWidth / items.length;
+              return Stack(
+                children: [
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    left: selectedIndex * itemW + (itemW - 48) / 2,
+                    top: 8,
+                    width: 48,
+                    height: 32,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.primary.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                  Positioned.fill(
+                    child: Row(
+                      children: [
+                        for (final item in items)
+                          Expanded(child: _buildItem(context, item)),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
-}
 
-class _MobileItem extends StatelessWidget {
-  const _MobileItem({
-    required this.item,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final NavItem item;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildItem(BuildContext context, NavItem item) {
+    final selected = item.route.routeName == currentRoute;
     final colors = context.theme.colors;
-    final foreground = selected
-        ? colors.primaryForeground
-        : colors.mutedForeground;
+    final foreground = selected ? colors.primary : colors.mutedForeground;
 
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: item.label,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          height: 64,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 32,
-                child: Center(
-                  child: Icon(item.icon, size: 20, color: foreground),
-                ),
-              ),
-              const SizedBox(height: 8),
-              AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOut,
-                style: TextStyle(
-                  color: selected ? colors.foreground : colors.mutedForeground,
-                  fontSize: 11,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                ),
-                child: Text(
-                  item.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => AutoRouter.of(context).navigate(item.route),
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          SizedBox(
+            width: 48,
+            height: 32,
+            child: Center(
+              child: Icon(item.icon, size: 22, color: foreground),
+            ),
           ),
-        ),
+          const SizedBox(height: 8),
+          Text(
+            item.label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: foreground,
+              fontSize: 10,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
       ),
     );
   }

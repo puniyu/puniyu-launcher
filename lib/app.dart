@@ -7,7 +7,6 @@ import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
 import 'package:puniyu_launcher/router.dart';
 import 'package:puniyu_launcher/theme.dart' hide Theme;
 
-
 class App extends ConsumerStatefulWidget {
   const App({super.key});
 

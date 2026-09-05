@@ -25,18 +25,19 @@ abstract class Theme {
 
 class ThemeManager {
   ThemeManager({
-    required this.themes,
+    required List<Theme> themes,
     required this.currentId,
     this.themeMode = ThemeMode.system,
-  });
+  }) : themes = List.unmodifiable(themes),
+       current = themes.firstWhere((theme) => theme.id == currentId);
 
   final List<Theme> themes;
   final String currentId;
   final ThemeMode themeMode;
+  final Theme current;
 
-  Theme get current => themes.firstWhere((t) => t.id == currentId);
-  FThemeData get lightTheme => _buildThemeData(current.light);
-  FThemeData get darkTheme => _buildThemeData(current.dark);
+  late final FThemeData lightTheme = _buildThemeData(current.light);
+  late final FThemeData darkTheme = _buildThemeData(current.dark);
 
   static FThemeData _buildThemeData(FColors colors) {
     final typeface = FTypeface.inherit(
@@ -56,8 +57,9 @@ class ThemeManager {
 class ThemeController extends _$ThemeController {
   @override
   ThemeManager build() {
-    final themes = [Pink(), Blue()];
-    return ThemeManager(themes: themes, currentId: Pink().id);
+    final defaultTheme = Pink();
+    final themes = [defaultTheme, Blue()];
+    return ThemeManager(themes: themes, currentId: defaultTheme.id);
   }
 
   bool setTheme(String id) {

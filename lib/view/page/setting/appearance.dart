@@ -57,13 +57,23 @@ class AppearanceSetting extends ConsumerWidget {
         SettingItem(
           title: l10n.themeMode,
           subTitle: l10n.themeModeDesc,
-          content: Row(
-            children: [
-              for (final (index, item) in themeModeItems.indexed) ...[
-                if (index > 0) const SizedBox(width: 8),
-                Expanded(child: item),
-              ],
-            ],
+          content: LayoutBuilder(
+            builder: (context, constraints) {
+              final w = (constraints.maxWidth - 8) / 2;
+              return Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final (i, item) in themeModeItems.indexed)
+                    SizedBox(
+                      width: themeModeItems.length.isOdd && i == themeModeItems.length - 1
+                          ? constraints.maxWidth
+                          : w,
+                      child: item,
+                    ),
+                ],
+              );
+            },
           ),
         ),
       ],
@@ -149,16 +159,8 @@ class _ThemeModeItem extends StatelessWidget {
       semanticsLabel: label,
       variant: isSelected ? FButtonVariant.primary : FButtonVariant.outline,
       size: FButtonSizeVariant.lg,
-      mainAxisSize: MainAxisSize.min,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 16),
-          const SizedBox(width: 8),
-          Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
-        ],
-      ),
+      prefix: Icon(icon, size: 16),
+      child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
     );
   }
 }
