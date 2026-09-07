@@ -59,14 +59,15 @@ class AppearanceSetting extends ConsumerWidget {
           subTitle: l10n.themeModeDesc,
           content: LayoutBuilder(
             builder: (context, constraints) {
-              final w = (constraints.maxWidth - 8) / 2;
+              final cols = constraints.maxWidth > 400 ? themeModeItems.length : 2;
+              final w = (constraints.maxWidth - 8 * (cols - 1)) / cols;
               return Wrap(
                 spacing: 8,
                 runSpacing: 8,
                 children: [
                   for (final (i, item) in themeModeItems.indexed)
                     SizedBox(
-                      width: themeModeItems.length.isOdd && i == themeModeItems.length - 1
+                      width: cols == 2 && themeModeItems.length.isOdd && i == themeModeItems.length - 1
                           ? constraints.maxWidth
                           : w,
                       child: item,
