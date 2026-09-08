@@ -5,10 +5,12 @@
 import FlutterMacOS
 import Foundation
 
+import cindel_flutter_libs
 import screen_retriever_macos
 import window_manager
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  CindelFlutterLibsPlugin.register(with: registry.registrar(forPlugin: "CindelFlutterLibsPlugin"))
   ScreenRetrieverMacosPlugin.register(with: registry.registrar(forPlugin: "ScreenRetrieverMacosPlugin"))
   WindowManagerPlugin.register(with: registry.registrar(forPlugin: "WindowManagerPlugin"))
 }

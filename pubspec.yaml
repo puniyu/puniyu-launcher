@@ -30,6 +30,11 @@ dependencies:
     sdk: flutter
   intl: ^0.20.3
 
+  # 数据库
+  cindel: ^1.0.0
+  cindel_flutter_libs: ^1.0.0
+  path_provider: ^2.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -38,9 +43,10 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   rename_app: ^1.6.6
   auto_route_generator: ^10.6.0
-  build_runner: ^2.16.0
-  forui_cli: ^0.26.0
-  riverpod_generator: ^4.0.8
+  build_runner: ^2.16.1
+  forui_cli: ^0.26.1
+  riverpod_generator: ^4.0.9
+  cindel_generator: ^1.0.0
 
 flutter:
   uses-material-design: false

@@ -1,8 +1,11 @@
-import 'package:material_ui/material_ui.dart' hide Theme;
+import 'package:cindel/cindel.dart';
 import 'package:forui/forui.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:material_ui/material_ui.dart' hide Theme;
+import 'package:puniyu_launcher/database.dart';
+import 'package:puniyu_launcher/database/setting.dart';
 import 'package:puniyu_launcher/theme/blue.dart';
 import 'package:puniyu_launcher/theme/pink.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'theme.g.dart';
 
@@ -59,7 +62,21 @@ class ThemeController extends _$ThemeController {
   ThemeManager build() {
     final defaultTheme = Pink();
     final themes = [defaultTheme, Blue()];
+    _load();
     return ThemeManager(themes: themes, currentId: defaultTheme.id);
+  }
+
+  Future<CindelDatabase> _getDb() => ref.read(dataBaseProvider.future);
+
+  Future<void> _load() async {
+    final db = await _getDb();
+    final s = await db.setting.all().findFirst();
+    if (s == null) return;
+    state = ThemeManager(
+      themes: state.themes,
+      currentId: s.appearance.themeId,
+      themeMode: s.appearance.themeMode,
+    );
   }
 
   bool setTheme(String id) {
@@ -71,6 +88,7 @@ class ThemeController extends _$ThemeController {
       currentId: id,
       themeMode: s.themeMode,
     );
+    _persist();
     return true;
   }
 
@@ -82,6 +100,16 @@ class ThemeController extends _$ThemeController {
       currentId: s.currentId,
       themeMode: mode,
     );
+    _persist();
     return true;
+  }
+
+  Future<void> _persist() async {
+    final db = await _getDb();
+    final s = await db.setting.all().findFirst() ??
+        (Setting()..appearance = AppearanceSetting());
+    s.appearance.themeId = state.currentId;
+    s.appearance.themeMode = state.themeMode;
+    await db.setting.put(s);
   }
 }
