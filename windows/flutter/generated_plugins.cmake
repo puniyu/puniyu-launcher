@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   cindel_flutter_libs
+  proxy_setting_windows
   screen_retriever_windows
   window_manager
 )

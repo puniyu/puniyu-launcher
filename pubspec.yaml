@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
 
   # UI
-  material_ui: 1.1.0
+  material_ui: 1.2.0
   forui: ^0.26.0
 
   # 状态管理
@@ -33,7 +33,12 @@ dependencies:
   # 数据库
   cindel: ^1.0.0
   cindel_flutter_libs: ^1.0.0
+  
+  # 路径管理
   path_provider: ^2.1.6
+
+  # 系统代理
+  detect_proxy_setting: ^0.0.10
 
 dev_dependencies:
   flutter_test:

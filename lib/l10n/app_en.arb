@@ -99,5 +99,62 @@
     "errorDescription": "An unexpected problem occurred. You can copy the details below to report the issue, or go back.",
     "@errorDescription": {
         "description": "Fallback description shown on the error page"
+    },
+    "proxy": "Proxy",
+    "@proxy": {
+        "description": "Proxy settings page title"
+    },
+    "proxyMode": "Proxy Mode",
+    "@proxyMode": {
+        "description": "Proxy mode setting title"
+    },
+    "proxyModeDesc": "Choose how to connect through a proxy",
+    "@proxyModeDesc": {
+        "description": "Proxy mode setting description"
+    },
+    "proxyOff": "Off",
+    "@proxyOff": {
+        "description": "Disable proxy"
+    },
+    "proxySystem": "System",
+    "@proxySystem": {
+        "description": "Follow system proxy settings"
+    },
+    "proxyCustom": "Custom",
+    "@proxyCustom": {
+        "description": "Custom proxy configuration"
+    },
+    "proxyHost": "Host",
+    "@proxyHost": {
+        "description": "The proxy server address"
+    },
+    "proxyHostDesc": "The proxy server address",
+    "@proxyHostDesc": {
+        "description": "The proxy server address description"
+    },
+    "proxyPort": "Port",
+    "@proxyPort": {
+        "description": "The proxy server port number"
+    },
+    "proxyPortDesc": "The proxy server port number",
+    "@proxyPortDesc": {
+        "description": "The proxy server port description"
+    },
+    "proxyReadSystem": "Detect System Proxy",
+    "@proxyReadSystem": {
+        "description": "Detect system proxy button"
+    },
+    "proxyDetected": "Detected: {proxy}",
+    "@proxyDetected": {
+        "placeholders": {
+            "proxy": {
+                "type": "String"
+            }
+        },
+        "description": "System proxy detected"
+    },
+    "proxyNotDetected": "No system proxy detected",
+    "@proxyNotDetected": {
+        "description": "No system proxy detected"
     }
 }

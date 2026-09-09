@@ -79,4 +79,45 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorDescription =>
       'An unexpected problem occurred. You can copy the details below to report the issue, or go back.';
+
+  @override
+  String get proxy => 'Proxy';
+
+  @override
+  String get proxyMode => 'Proxy Mode';
+
+  @override
+  String get proxyModeDesc => 'Choose how to connect through a proxy';
+
+  @override
+  String get proxyOff => 'Off';
+
+  @override
+  String get proxySystem => 'System';
+
+  @override
+  String get proxyCustom => 'Custom';
+
+  @override
+  String get proxyHost => 'Host';
+
+  @override
+  String get proxyHostDesc => 'The proxy server address';
+
+  @override
+  String get proxyPort => 'Port';
+
+  @override
+  String get proxyPortDesc => 'The proxy server port number';
+
+  @override
+  String get proxyReadSystem => 'Detect System Proxy';
+
+  @override
+  String proxyDetected(String proxy) {
+    return 'Detected: $proxy';
+  }
+
+  @override
+  String get proxyNotDetected => 'No system proxy detected';
 }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'theme.dart';
+part of 'proxy.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,50 @@ part of 'theme.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(ThemeController)
-final themeControllerProvider = ThemeControllerProvider._();
+@ProviderFor(Proxy)
+final proxyProvider = ProxyProvider._();
 
-final class ThemeControllerProvider
-    extends $NotifierProvider<ThemeController, ThemeManager> {
-  ThemeControllerProvider._()
+final class ProxyProvider extends $NotifierProvider<Proxy, ProxySetting> {
+  ProxyProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'themeControllerProvider',
+        name: r'proxyProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$themeControllerHash();
+  String debugGetCreateSourceHash() => _$proxyHash();
 
   @$internal
   @override
-  ThemeController create() => ThemeController();
+  Proxy create() => Proxy();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ThemeManager value) {
+  Override overrideWithValue(ProxySetting value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<ThemeManager>(value),
+      providerOverride: $SyncValueProvider<ProxySetting>(value),
     );
   }
 }
 
-String _$themeControllerHash() => r'eb674a67696bc2b0446994389d4702b94ed178ec';
+String _$proxyHash() => r'e759b311f22a80cb5244eb999bac6c31ad902756';
 
-abstract class _$ThemeController extends $Notifier<ThemeManager> {
-  ThemeManager build();
+abstract class _$Proxy extends $Notifier<ProxySetting> {
+  ProxySetting build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<ThemeManager, ThemeManager>;
+    final ref = this.ref as $Ref<ProxySetting, ProxySetting>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<ThemeManager, ThemeManager>,
-              ThemeManager,
+              AnyNotifier<ProxySetting, ProxySetting>,
+              ProxySetting,
               Object?,
               Object?
             >;

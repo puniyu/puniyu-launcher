@@ -235,6 +235,84 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'发生了意外问题。你可以复制下方详情以便反馈，或返回上一页面。'**
   String get errorDescription;
+
+  /// 代理设置页面标题
+  ///
+  /// In zh, this message translates to:
+  /// **'代理'**
+  String get proxy;
+
+  /// 代理模式设置项标题
+  ///
+  /// In zh, this message translates to:
+  /// **'代理模式'**
+  String get proxyMode;
+
+  /// 代理模式设置项描述
+  ///
+  /// In zh, this message translates to:
+  /// **'选择代理的连接方式'**
+  String get proxyModeDesc;
+
+  /// 关闭代理
+  ///
+  /// In zh, this message translates to:
+  /// **'关闭'**
+  String get proxyOff;
+
+  /// 跟随系统代理
+  ///
+  /// In zh, this message translates to:
+  /// **'系统代理'**
+  String get proxySystem;
+
+  /// 自定义代理配置
+  ///
+  /// In zh, this message translates to:
+  /// **'自定义'**
+  String get proxyCustom;
+
+  /// 代理服务器的地址
+  ///
+  /// In zh, this message translates to:
+  /// **'主机地址'**
+  String get proxyHost;
+
+  /// 代理服务器的地址描述
+  ///
+  /// In zh, this message translates to:
+  /// **'代理服务器的地址'**
+  String get proxyHostDesc;
+
+  /// 代理服务器的端口号
+  ///
+  /// In zh, this message translates to:
+  /// **'端口'**
+  String get proxyPort;
+
+  /// 代理服务器端口描述
+  ///
+  /// In zh, this message translates to:
+  /// **'代理服务器的端口号'**
+  String get proxyPortDesc;
+
+  /// 检测系统代理按钮
+  ///
+  /// In zh, this message translates to:
+  /// **'检测系统代理'**
+  String get proxyReadSystem;
+
+  /// 已检测到系统代理
+  ///
+  /// In zh, this message translates to:
+  /// **'已检测到: {proxy}'**
+  String proxyDetected(String proxy);
+
+  /// 未检测到系统代理
+  ///
+  /// In zh, this message translates to:
+  /// **'未检测到系统代理'**
+  String get proxyNotDetected;
 }
 
 class _AppLocalizationsDelegate

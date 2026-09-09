@@ -78,4 +78,45 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get errorDescription => '发生了意外问题。你可以复制下方详情以便反馈，或返回上一页面。';
+
+  @override
+  String get proxy => '代理';
+
+  @override
+  String get proxyMode => '代理模式';
+
+  @override
+  String get proxyModeDesc => '选择代理的连接方式';
+
+  @override
+  String get proxyOff => '关闭';
+
+  @override
+  String get proxySystem => '系统代理';
+
+  @override
+  String get proxyCustom => '自定义';
+
+  @override
+  String get proxyHost => '主机地址';
+
+  @override
+  String get proxyHostDesc => '代理服务器的地址';
+
+  @override
+  String get proxyPort => '端口';
+
+  @override
+  String get proxyPortDesc => '代理服务器的端口号';
+
+  @override
+  String get proxyReadSystem => '检测系统代理';
+
+  @override
+  String proxyDetected(String proxy) {
+    return '已检测到: $proxy';
+  }
+
+  @override
+  String get proxyNotDetected => '未检测到系统代理';
 }

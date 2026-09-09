@@ -99,5 +99,62 @@
     "errorDescription": "发生了意外问题。你可以复制下方详情以便反馈，或返回上一页面。",
     "@errorDescription": {
         "description": "错误页兜底说明"
+    },
+    "proxy": "代理",
+    "@proxy": {
+        "description": "代理设置页面标题"
+    },
+    "proxyMode": "代理模式",
+    "@proxyMode": {
+        "description": "代理模式设置项标题"
+    },
+    "proxyModeDesc": "选择代理的连接方式",
+    "@proxyModeDesc": {
+        "description": "代理模式设置项描述"
+    },
+    "proxyOff": "关闭",
+    "@proxyOff": {
+        "description": "关闭代理"
+    },
+    "proxySystem": "系统代理",
+    "@proxySystem": {
+        "description": "跟随系统代理"
+    },
+    "proxyCustom": "自定义",
+    "@proxyCustom": {
+        "description": "自定义代理配置"
+    },
+    "proxyHost": "主机地址",
+    "@proxyHost": {
+        "description": "代理服务器的地址"
+    },
+    "proxyHostDesc": "代理服务器的地址",
+    "@proxyHostDesc": {
+        "description": "代理服务器的地址描述"
+    },
+    "proxyPort": "端口",
+    "@proxyPort": {
+        "description": "代理服务器的端口号"
+    },
+    "proxyPortDesc": "代理服务器的端口号",
+    "@proxyPortDesc": {
+        "description": "代理服务器端口描述"
+    },
+    "proxyReadSystem": "检测系统代理",
+    "@proxyReadSystem": {
+        "description": "检测系统代理按钮"
+    },
+    "proxyDetected": "已检测到: {proxy}",
+    "@proxyDetected": {
+        "placeholders": {
+            "proxy": {
+                "type": "String"
+            }
+        },
+        "description": "已检测到系统代理"
+    },
+    "proxyNotDetected": "未检测到系统代理",
+    "@proxyNotDetected": {
+        "description": "未检测到系统代理"
     }
 }
