@@ -35,17 +35,6 @@ final SettingSchema = CindelCollectionSchema<Setting>(
       indexCaseSensitive: true,
       indexType: CindelIndexType.value,
     ),
-    CindelFieldSchema(
-      name: "proxy",
-      dartType: "ProxySetting",
-      binaryType: "object",
-      isId: false,
-      isIndexed: false,
-      isIndexUnique: false,
-      isIndexReplace: false,
-      indexCaseSensitive: true,
-      indexType: CindelIndexType.value,
-    ),
   ],
   links: <CindelLinkSchema>[],
   compositeIndexes: <CindelCompositeIndexSchema>[],
@@ -134,39 +123,6 @@ extension SettingCindelQueryModifierAccess on CindelQuery<Setting> {
       ),
     );
   }
-
-  CindelQuery<Setting> sortByProxy({
-    CindelSortOrder order = CindelSortOrder.ascending,
-  }) {
-    return sortBy("proxy", order: order);
-  }
-
-  CindelQuery<Setting> sortByProxyDesc() {
-    return sortBy("proxy", order: CindelSortOrder.descending);
-  }
-
-  CindelQuery<Setting> thenByProxy({
-    CindelSortOrder order = CindelSortOrder.ascending,
-  }) {
-    return thenBy("proxy", order: order);
-  }
-
-  CindelQuery<Setting> thenByProxyDesc() {
-    return thenBy("proxy", order: CindelSortOrder.descending);
-  }
-
-  CindelQuery<Setting> distinctByProxy() {
-    return distinctBy("proxy");
-  }
-
-  CindelPropertyQuery<Setting, ProxySetting> proxyProperty() {
-    return property<ProxySetting>(
-      "proxy",
-      decode: (value) => _$ProxySettingFromCindelEmbedded(
-        (value as Map).cast<String, Object?>(),
-      ),
-    );
-  }
 }
 
 final class SettingQueryFilter {
@@ -223,25 +179,6 @@ final class SettingQueryFilter {
         const SettingAppearanceSettingCindelEmbeddedFilter._(<String>[
           "appearance",
         ]),
-      ),
-    );
-  }
-
-  CindelQuery<Setting> proxyEqualTo(ProxySetting value) {
-    return _query.whereMatches(
-      CindelFilter.field(
-        "proxy",
-      ).equalTo(_$ProxySettingToCindelEmbedded(value)),
-    );
-  }
-
-  CindelQuery<Setting> proxy(
-    CindelFilterPredicate Function(SettingProxySettingCindelEmbeddedFilter q)
-    filter,
-  ) {
-    return _query.whereMatches(
-      filter(
-        const SettingProxySettingCindelEmbeddedFilter._(<String>["proxy"]),
       ),
     );
   }
@@ -306,66 +243,9 @@ final class SettingAppearanceSettingCindelEmbeddedFilter {
   }
 }
 
-final class SettingProxySettingCindelEmbeddedFilter {
-  const SettingProxySettingCindelEmbeddedFilter._(this._path);
-
-  final List<String> _path;
-
-  CindelFilterPredicate modeEqualTo(ProxyMode value) {
-    return CindelFilter.path(<String>[..._path, "mode"]).equalTo(value.name);
-  }
-
-  CindelFilterPredicate hostEqualTo(String? value) {
-    return CindelFilter.path(<String>[..._path, "host"]).equalTo(value);
-  }
-
-  CindelFilterPredicate hostContains(String value) {
-    return CindelFilter.path(<String>[..._path, "host"]).contains(value);
-  }
-
-  CindelFilterPredicate hostStartsWith(String value) {
-    return CindelFilter.path(<String>[..._path, "host"]).startsWith(value);
-  }
-
-  CindelFilterPredicate hostEndsWith(String value) {
-    return CindelFilter.path(<String>[..._path, "host"]).endsWith(value);
-  }
-
-  CindelFilterPredicate portEqualTo(int? value) {
-    return CindelFilter.path(<String>[..._path, "port"]).equalTo(value);
-  }
-
-  CindelFilterPredicate portGreaterThan(int value) {
-    return CindelFilter.path(<String>[..._path, "port"]).greaterThan(value);
-  }
-
-  CindelFilterPredicate portGreaterThanOrEqualTo(int value) {
-    return CindelFilter.path(<String>[
-      ..._path,
-      "port",
-    ]).greaterThanOrEqualTo(value);
-  }
-
-  CindelFilterPredicate portLessThan(int value) {
-    return CindelFilter.path(<String>[..._path, "port"]).lessThan(value);
-  }
-
-  CindelFilterPredicate portLessThanOrEqualTo(int value) {
-    return CindelFilter.path(<String>[
-      ..._path,
-      "port",
-    ]).lessThanOrEqualTo(value);
-  }
-
-  CindelFilterPredicate portBetween(int? lower, int? upper) {
-    return CindelFilter.path(<String>[..._path, "port"]).between(lower, upper);
-  }
-}
-
 Map<String, Object?> _$SettingToCindelDocument(Setting object) {
   return <String, Object?>{
     "appearance": _$AppearanceSettingToCindelEmbedded(object.appearance),
-    "proxy": _$ProxySettingToCindelEmbedded(object.proxy),
   };
 }
 
@@ -375,36 +255,23 @@ Setting _$SettingFromCindelDocument(Map<String, Object?> document) {
   object.appearance = _$AppearanceSettingFromCindelEmbedded(
     (document["appearance"] as Map).cast<String, Object?>(),
   );
-  object.proxy = _$ProxySettingFromCindelEmbedded(
-    (document["proxy"] as Map).cast<String, Object?>(),
-  );
   return object;
 }
 
 CindelBinaryDocumentBytes _$SettingToCindelBinaryDocument(Setting object) {
   return cindelEncodeSchemaBinaryDocument(
-    <Object?>[
-      _$AppearanceSettingToCindelEmbedded(object.appearance),
-      _$ProxySettingToCindelEmbedded(object.proxy),
-    ],
-    const <CindelBinaryFieldType>[
-      CindelBinaryFieldType.objectValue,
-      CindelBinaryFieldType.objectValue,
-    ],
+    <Object?>[_$AppearanceSettingToCindelEmbedded(object.appearance)],
+    const <CindelBinaryFieldType>[CindelBinaryFieldType.objectValue],
   );
 }
 
 Setting _$SettingFromCindelBinaryDocument(CindelBinaryDocumentBytes bytes) {
-  final reader = CindelSchemaBinaryDocumentReader(bytes, staticSize: 6);
+  final reader = CindelSchemaBinaryDocumentReader(bytes, staticSize: 3);
   final Object? field0 = reader.readObject(0, 0);
-  final Object? field1 = reader.readObject(1, 3);
   final object = Setting();
   object.dbId = autoIncrement;
   object.appearance = _$AppearanceSettingFromCindelEmbedded(
     (field0 as Map).cast<String, Object?>(),
-  );
-  object.proxy = _$ProxySettingFromCindelEmbedded(
-    (field1 as Map).cast<String, Object?>(),
   );
   return object;
 }
@@ -424,17 +291,6 @@ void _$SettingWriteCindelNativeDocument(
       _$AppearanceSettingToCindelEmbedded,
     );
   }
-  {
-    final value = object.proxy;
-    cindelWriteNativeObject<ProxySetting>(
-      writer,
-      1,
-      _$ProxySettingCindelNativeFieldNames,
-      value,
-      _$ProxySettingWriteCindelNativeEmbedded,
-      _$ProxySettingToCindelEmbedded,
-    );
-  }
 }
 
 Setting _$SettingReadCindelNativeDocument(
@@ -450,14 +306,6 @@ Setting _$SettingReadCindelNativeDocument(
     _$AppearanceSettingCindelNativeFieldNames,
     _$AppearanceSettingReadCindelNativeEmbedded,
     _$AppearanceSettingFromCindelEmbedded,
-  ))!;
-  object.proxy = (cindelReadNativeObject<ProxySetting>(
-    reader,
-    documentIndex,
-    1,
-    _$ProxySettingCindelNativeFieldNames,
-    _$ProxySettingReadCindelNativeEmbedded,
-    _$ProxySettingFromCindelEmbedded,
   ))!;
   return object;
 }
@@ -510,59 +358,5 @@ AppearanceSetting _$AppearanceSettingReadCindelNativeEmbedded(
   object.themeMode = ThemeMode.values.byName(
     reader.readString(documentIndex, 1) as String,
   );
-  return object;
-}
-
-const _$ProxySettingCindelNativeFieldNames = <String>["mode", "host", "port"];
-
-Map<String, Object?> _$ProxySettingToCindelEmbedded(ProxySetting object) {
-  return <String, Object?>{
-    "mode": object.mode.name,
-    "host": object.host,
-    "port": object.port,
-  };
-}
-
-ProxySetting _$ProxySettingFromCindelEmbedded(Map<String, Object?> document) {
-  final object = ProxySetting();
-  object.mode = ProxyMode.values.byName(document["mode"] as String);
-  object.host = document["host"] == null ? null : document["host"] as String?;
-  object.port = document["port"] == null ? null : document["port"] as int?;
-  return object;
-}
-
-void _$ProxySettingWriteCindelNativeEmbedded(
-  CindelNativeDocumentWriter writer,
-  ProxySetting object,
-) {
-  writer.writeString(0, object.mode.name);
-  {
-    final value = object.host;
-    if (value == null) {
-      writer.writeNull(1);
-    } else {
-      writer.writeString(1, value);
-    }
-  }
-  {
-    final value = object.port;
-    if (value == null) {
-      writer.writeNull(2);
-    } else {
-      writer.writeInt(2, value);
-    }
-  }
-}
-
-ProxySetting _$ProxySettingReadCindelNativeEmbedded(
-  CindelNativeDocumentReader reader,
-  int documentIndex,
-) {
-  final object = ProxySetting();
-  object.mode = ProxyMode.values.byName(
-    reader.readString(documentIndex, 0) as String,
-  );
-  object.host = reader.readString(documentIndex, 1);
-  object.port = reader.readInt(documentIndex, 2);
   return object;
 }
