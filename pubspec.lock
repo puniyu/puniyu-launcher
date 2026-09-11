@@ -327,10 +327,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_sys_proxy
-      sha256: "93b5d44b7c5ff57ca2a192e8db38938b33ea9cd59234cc8c27d8a427e12c67a9"
+      sha256: "29f07dad183eac94cbfc3a076be37142650bc40d6cd9c6be1a6d9a6f150e48d5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter

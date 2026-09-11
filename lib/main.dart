@@ -12,7 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final proxy = await getSystemProxy();
   if (proxy != null &&
-      proxy.enable &&
+      proxy.enabled &&
       proxy.host != null &&
       proxy.host!.isNotEmpty &&
       proxy.port != null &&
