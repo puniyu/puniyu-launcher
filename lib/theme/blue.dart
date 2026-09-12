@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Theme;
 import 'package:flutter/services.dart';
 import 'package:forui/forui.dart';
-import 'package:puniyu_launcher/theme.dart';
+import 'package:puniyu_app/theme.dart';
 
 class Blue extends Theme {
   @override

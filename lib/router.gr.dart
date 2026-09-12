@@ -12,11 +12,11 @@
 
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:flutter/widgets.dart' as _i7;
-import 'package:puniyu_launcher/view/page/dashboard.dart' as _i1;
-import 'package:puniyu_launcher/view/page/error.dart' as _i2;
-import 'package:puniyu_launcher/view/page/layout.dart' as _i3;
-import 'package:puniyu_launcher/view/page/not_found.dart' as _i4;
-import 'package:puniyu_launcher/view/page/setting.dart' as _i5;
+import 'package:puniyu_app/view/page/dashboard.dart' as _i1;
+import 'package:puniyu_app/view/page/error.dart' as _i2;
+import 'package:puniyu_app/view/page/layout.dart' as _i3;
+import 'package:puniyu_app/view/page/not_found.dart' as _i4;
+import 'package:puniyu_app/view/page/setting.dart' as _i5;
 
 /// generated route for
 /// [_i1.DashboardPage]

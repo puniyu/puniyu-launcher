@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/platform.dart';
-import 'package:puniyu_launcher/router.gr.dart';
+import 'package:puniyu_app/l10n/generated/app_localizations.dart';
+import 'package:puniyu_app/platform.dart';
+import 'package:puniyu_app/router.gr.dart';
 
 class NavItem {
   const NavItem({required this.route, required this.icon, required this.label});
@@ -234,9 +234,7 @@ class _Mobile extends StatelessWidget {
           SizedBox(
             width: 48,
             height: 32,
-            child: Center(
-              child: Icon(item.icon, size: 22, color: foreground),
-            ),
+            child: Center(child: Icon(item.icon, size: 22, color: foreground)),
           ),
           const SizedBox(height: 8),
           Text(

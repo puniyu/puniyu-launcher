@@ -1,6 +1,6 @@
 import 'package:cindel/cindel.dart';
 import 'package:material_ui/material_ui.dart' hide Theme;
-import 'package:puniyu_launcher/theme/pink.dart';
+import 'package:puniyu_app/theme/pink.dart';
 
 part 'setting.g.dart';
 

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
-import 'package:puniyu_launcher/platform.dart';
-import 'package:puniyu_launcher/view/widget/nav_bar.dart';
-import 'package:puniyu_launcher/view/widget/title_bar.dart';
+import 'package:puniyu_app/platform.dart';
+import 'package:puniyu_app/view/widget/nav_bar.dart';
+import 'package:puniyu_app/view/widget/title_bar.dart';
 
 @RoutePage()
 class LayoutPage extends StatelessWidget {

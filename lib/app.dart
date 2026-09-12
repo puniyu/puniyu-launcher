@@ -3,9 +3,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 import 'package:material_ui/material_ui.dart' show MaterialApp, Theme;
-import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/router.dart';
-import 'package:puniyu_launcher/theme.dart' hide Theme;
+import 'package:puniyu_app/l10n/generated/app_localizations.dart';
+import 'package:puniyu_app/router.dart';
+import 'package:puniyu_app/theme.dart' hide Theme;
 
 class App extends ConsumerStatefulWidget {
   const App({super.key});

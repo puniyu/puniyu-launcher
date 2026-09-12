@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 import 'package:material_ui/material_ui.dart' hide Theme;
-import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/theme.dart';
-import 'package:puniyu_launcher/view/widget/setting.dart';
+import 'package:puniyu_app/l10n/generated/app_localizations.dart';
+import 'package:puniyu_app/theme.dart';
+import 'package:puniyu_app/view/widget/setting.dart';
 
 class AppearanceSetting extends ConsumerWidget {
   const AppearanceSetting({super.key});
@@ -59,7 +59,9 @@ class AppearanceSetting extends ConsumerWidget {
           subTitle: l10n.themeModeDesc,
           content: LayoutBuilder(
             builder: (context, constraints) {
-              final cols = constraints.maxWidth > 400 ? themeModeItems.length : 2;
+              final cols = constraints.maxWidth > 400
+                  ? themeModeItems.length
+                  : 2;
               final w = (constraints.maxWidth - 8 * (cols - 1)) / cols;
               return Wrap(
                 spacing: 8,
@@ -67,7 +69,10 @@ class AppearanceSetting extends ConsumerWidget {
                 children: [
                   for (final (i, item) in themeModeItems.indexed)
                     SizedBox(
-                      width: cols == 2 && themeModeItems.length.isOdd && i == themeModeItems.length - 1
+                      width:
+                          cols == 2 &&
+                              themeModeItems.length.isOdd &&
+                              i == themeModeItems.length - 1
                           ? constraints.maxWidth
                           : w,
                       child: item,

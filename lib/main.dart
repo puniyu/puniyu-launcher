@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sys_proxy/flutter_sys_proxy.dart';
-import 'package:puniyu_launcher/app.dart';
-import 'package:puniyu_launcher/platform.dart';
-import 'package:puniyu_launcher/proxy.dart';
-import 'package:puniyu_launcher/window.dart';
+import 'package:puniyu_app/app.dart';
+import 'package:puniyu_app/platform.dart';
+import 'package:puniyu_app/proxy.dart';
+import 'package:puniyu_app/window.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

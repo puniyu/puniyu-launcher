@@ -1,14 +1,12 @@
 set windows-shell := ["powershell.exe", "-c"]
 set shell := ["bash", "-cu"]
 
-set-app-package-name name:
-    dart run change_app_package_name:main {{ name }}
+set-app-name:
+    dart run change_app_package_name:main "com.puniyu.app"
+    dart run rename_app:main all="puniyu"
 
 set-app-icon:
     dart run flutter_launcher_icons
-
-set-app-name:
-    dart run rename_app:main
 
 gen:
     just gen-l10n

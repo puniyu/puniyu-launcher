@@ -1,4 +1,4 @@
-package com.puniyu.launcher
+package com.puniyu.app
 
 import io.flutter.embedding.android.FlutterActivity
 

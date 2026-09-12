@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide Theme;
 import 'package:forui/forui.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/platform.dart';
+import 'package:puniyu_app/l10n/generated/app_localizations.dart';
+import 'package:puniyu_app/platform.dart';
 
 enum _WindowAction { minimize, maximize, restore, close }
 

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
-import 'package:puniyu_launcher/l10n/generated/app_localizations.dart';
-import 'package:puniyu_launcher/router.gr.dart';
+import 'package:puniyu_app/l10n/generated/app_localizations.dart';
+import 'package:puniyu_app/router.gr.dart';
 
 Widget _routeTransition(
   BuildContext context,
